@@ -1,39 +1,173 @@
-import { Col, Container, Row, Table } from "react-bootstrap";
+import React, { useState, useEffect } from "react";
+import { Container, Row, Col, Table, Button, Spinner, Modal, Form } from "react-bootstrap";
+import ExpenseService from "../services/expenseService";
 
-const NewExpensesTable = () => {
-    return (
-        <>
-    <Table striped bordered hover variant="dark">
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>First Name</th>
-          <th>Last Name</th>
-          <th>Username</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>1</td>
-          <td>Mark</td>
-          <td>Otto</td>
-          <td>@mdo</td>
-        </tr>
-        <tr>
-          <td>2</td>
-          <td>Jacob</td>
-          <td>Thornton</td>
-          <td>@fat</td>
-        </tr>
-        <tr>
-          <td>3</td>
-          <td colSpan={2}>Larry the Bird</td>
-          <td>@twitter</td>
-        </tr>
-      </tbody>
-    </Table>
-        </>
-    )
+interface Expense {
+  id: number;
+  category: string;
+  amount: number;
+  date: string;
 }
 
-export default NewExpensesTable
+const NewExpensesTable: React.FC = () => {
+  const [expenses, setExpenses] = useState<Expense[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [showModal, setShowModal] = useState(false);
+  const [selectedExpense, setSelectedExpense] = useState<Expense | null>(null);
+
+  const fetchExpenses = async () => {
+    setLoading(true);
+    try {
+      const data = await ExpenseService.getExpenses();
+      setExpenses(data || []);
+    } catch (error) {
+      console.error("Erro ao buscar despesas:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchExpenses();
+  }, []);
+
+  const handleOpenModal = (expense?: Expense) => {
+    setSelectedExpense(expense || { id: 0, category: "", amount: 0, date: "" });
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setSelectedExpense(null);
+  };
+
+  const handleSaveExpense = async () => {
+    if (!selectedExpense) return;
+
+    try {
+      if (selectedExpense.id) {
+        await ExpenseService.updateExpense(selectedExpense.id, selectedExpense);
+      } else {
+        await ExpenseService.addExpense(selectedExpense);
+      }
+      fetchExpenses();
+    } catch (error) {
+      console.error("Erro ao salvar despesa:", error);
+    } finally {
+      handleCloseModal();
+    }
+  };
+
+  const handleDeleteExpense = async (id: number) => {
+    try {
+      await ExpenseService.deleteExpense(id);
+      fetchExpenses();
+    } catch (error) {
+      console.error("Erro ao remover despesa:", error);
+    }
+  };
+
+  if (loading) {
+    return (
+      <Container className="text-center mt-5">
+        <Spinner animation="border" role="status">
+          <span className="visually-hidden">Carregando...</span>
+        </Spinner>
+      </Container>
+    );
+  }
+
+  return (
+    <Container className="mt-5">
+      <Row className="mb-4">
+        <Col>
+          <h1>Lista de Despesas</h1>
+        </Col>
+        <Col xs="auto">
+          <Button variant="primary" onClick={() => handleOpenModal()}>
+            Adicionar Despesa
+          </Button>
+        </Col>
+      </Row>
+      <Table striped bordered hover>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Categoria</th>
+            <th>Valor</th>
+            <th>Data</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          {expenses.map((expense) => (
+            <tr key={expense.id}>
+              <td>{expense.id}</td>
+              <td>{expense.description}</td>
+              <td>{expense.value}</td>
+              <td>{expense.date}</td>
+              <td>
+                <Button variant="warning" size="sm" onClick={() => handleOpenModal(expense)}>
+                  Editar
+                </Button>{" "}
+                <Button variant="danger" size="sm" onClick={() => handleDeleteExpense(expense.id)}>
+                  Excluir
+                </Button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </Table>
+
+      <Modal show={showModal} onHide={handleCloseModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>{selectedExpense?.id ? "Editar Despesa" : "Adicionar Despesa"}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form>
+            <Form.Group className="mb-3" controlId="formCategory">
+              <Form.Label>Categoria</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Categoria"
+                value={selectedExpense?.description || ""}
+                onChange={(e) =>
+                  setSelectedExpense({ ...selectedExpense!, description: e.target.value })
+                }
+              />
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="formAmount">
+              <Form.Label>Valor</Form.Label>
+              <Form.Control
+                type="number"
+                placeholder="Valor"
+                value={selectedExpense?.value || ""}
+                onChange={(e) =>
+                  setSelectedExpense({ ...selectedExpense!, value: parseFloat(e.target.value) })
+                }
+              />
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="formDate">
+              <Form.Label>Data</Form.Label>
+              <Form.Control
+                type="date"
+                value={selectedExpense?.date || ""}
+                onChange={(e) => setSelectedExpense({ ...selectedExpense!, date: e.target.value })}
+              />
+            </Form.Group>
+          </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseModal}>
+            Cancelar
+          </Button>
+          <Button variant="primary" onClick={handleSaveExpense}>
+            Salvar
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    </Container>
+  );
+};
+
+export default NewExpensesTable;

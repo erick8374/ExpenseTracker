@@ -103,8 +103,8 @@ const NewIncomesTable: React.FC = () => {
           {incomes.map((income) => (
             <tr key={income.id}>
               <td>{income.id}</td>
-              <td>{income.description}</td>
-              <td>{income.value}</td>
+              <td>{income.descricao}</td>
+              <td>{income.valor}</td>
               <td>{income.date}</td>
               <td>
                 <Button variant="warning" size="sm" onClick={() => handleOpenModal(income)}>
@@ -126,13 +126,13 @@ const NewIncomesTable: React.FC = () => {
         <Modal.Body>
           <Form>
             <Form.Group className="mb-3" controlId="formCategory">
-              <Form.Label>Categoria</Form.Label>
+              <Form.Label>Descrição</Form.Label>
               <Form.Control
                 type="text"
                 placeholder="Categoria"
-                value={selectedIncome?.category || ""}
+                value={selectedIncome?.description || ""}
                 onChange={(e) =>
-                  setSelectedIncome({ ...selectedIncome!, category: e.target.value })
+                  setSelectedIncome({ ...selectedIncome!, description: e.target.value })
                 }
               />
             </Form.Group>
@@ -141,9 +141,9 @@ const NewIncomesTable: React.FC = () => {
               <Form.Control
                 type="number"
                 placeholder="Valor"
-                value={selectedIncome?.amount || ""}
+                value={selectedIncome?.value || ""}
                 onChange={(e) =>
-                  setSelectedIncome({ ...selectedIncome!, amount: parseFloat(e.target.value) })
+                  setSelectedIncome({ ...selectedIncome!, value: parseFloat(e.target.value) })
                 }
               />
             </Form.Group>
