@@ -62,7 +62,7 @@ const Expenses = () => {
         <NewExpensesTable></NewExpensesTable>
         </Col>
         <Col>
-          <ExnpensePerCategory/>
+        <ExnpensePerCategory/>
         <ExpensePerPeriod></ExpensePerPeriod>
         </Col>
       </Row>

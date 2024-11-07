@@ -4,13 +4,13 @@ const baseUrl = 'http://localhost:3001/webmob/api'
 class ExpenseService {
 
     async getExpenses() {
-        return await axios.get(`${baseUrl}/matches`).then((response) => response.data)
+        return await axios.get(`${baseUrl}/expenses`).then((response) => response.data)
         .catch((error) => {
             console.error('Error fetching data:', error)
         })
     }
     async getExpensesbyId(id:number) {
-        return await axios.get(`${baseUrl}/matches`).then((response) => response.data)
+        return await axios.get(`${baseUrl}/expense`).then((response) => response.data)
         .catch((error) => {
             console.error('Error fetching data:', error)
         })
