@@ -18,7 +18,7 @@ const NavbarTop = () => {
     <Navbar bg="dark" expand="md" data-bs-theme="dark">
       <Container>
         <Navbar.Brand>
-          <Link href="/">Home</Link>
+          <Link href="/">Expense Tracker</Link>
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
@@ -36,7 +36,7 @@ const NavbarTop = () => {
               Dog do Dia
             </Nav.Link>
             <Nav.Link as={Link} href="#" passHref onClick={handleLogout}>
-              <i className="bi bi-box-arrow-in-right"></i>
+              <i className="bi bi-box-arrow-in-right fs-4"></i>
             </Nav.Link>
           </Nav>
         </Navbar.Collapse>

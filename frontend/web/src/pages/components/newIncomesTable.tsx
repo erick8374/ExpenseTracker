@@ -1,39 +1,173 @@
-import { Col, Container, Row, Table } from "react-bootstrap";
+import React, { useState, useEffect } from "react";
+import { Container, Row, Col, Table, Button, Spinner, Modal, Form } from "react-bootstrap";
+import IncomeService from "../services/incomeService";
 
-const NewIncomesTable = () => {
-    return (
-        <>
-    <Table striped bordered hover variant="dark">
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>First Name</th>
-          <th>Last Name</th>
-          <th>Username</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>1</td>
-          <td>Mark</td>
-          <td>Otto</td>
-          <td>@mdo</td>
-        </tr>
-        <tr>
-          <td>2</td>
-          <td>Jacob</td>
-          <td>Thornton</td>
-          <td>@fat</td>
-        </tr>
-        <tr>
-          <td>3</td>
-          <td colSpan={2}>Larry the Bird</td>
-          <td>@twitter</td>
-        </tr>
-      </tbody>
-    </Table>
-        </>
-    )
+interface Income {
+  id: number;
+  category: string;
+  amount: number;
+  date: string;
 }
 
-export default NewIncomesTable
+const NewIncomesTable: React.FC = () => {
+  const [incomes, setIncomes] = useState<Income[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [showModal, setShowModal] = useState(false);
+  const [selectedIncome, setSelectedIncome] = useState<Income | null>(null);
+
+  const fetchIncomes = async () => {
+    setLoading(true);
+    try {
+      const data = await IncomeService.getIncomes();
+      setIncomes(data || []);
+    } catch (error) {
+      console.error("Erro ao buscar receitas:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchIncomes();
+  }, []);
+
+  const handleOpenModal = (income?: Income) => {
+    setSelectedIncome(income || { id: 0, category: "", amount: 0, date: "" });
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setSelectedIncome(null);
+  };
+
+  const handleSaveIncome = async () => {
+    if (!selectedIncome) return;
+
+    try {
+      if (selectedIncome.id) {
+        await IncomeService.updateIncome(selectedIncome.id, selectedIncome);
+      } else {
+        await IncomeService.addIncome(selectedIncome);
+      }
+      fetchIncomes();
+    } catch (error) {
+      console.error("Erro ao salvar receita:", error);
+    } finally {
+      handleCloseModal();
+    }
+  };
+
+  const handleDeleteIncome = async (id: number) => {
+    try {
+      await IncomeService.deleteIncome(id);
+      fetchIncomes();
+    } catch (error) {
+      console.error("Erro ao remover receita:", error);
+    }
+  };
+
+  if (loading) {
+    return (
+      <Container className="text-center mt-5">
+        <Spinner animation="border" role="status">
+          <span className="visually-hidden">Carregando...</span>
+        </Spinner>
+      </Container>
+    );
+  }
+
+  return (
+    <Container className="mt-5">
+      <Row className="mb-4">
+        <Col>
+          <h1>Lista de Receitas</h1>
+        </Col>
+        <Col xs="auto">
+          <Button variant="primary" onClick={() => handleOpenModal()}>
+            Adicionar Receita
+          </Button>
+        </Col>
+      </Row>
+      <Table striped bordered hover>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Descrição</th>
+            <th>Valor</th>
+            <th>Data</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          {incomes.map((income) => (
+            <tr key={income.id}>
+              <td>{income.id}</td>
+              <td>{income.description}</td>
+              <td>{income.value}</td>
+              <td>{income.date}</td>
+              <td>
+                <Button variant="warning" size="sm" onClick={() => handleOpenModal(income)}>
+                  Editar
+                </Button>{" "}
+                <Button variant="danger" size="sm" onClick={() => handleDeleteIncome(income.id)}>
+                  Excluir
+                </Button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </Table>
+
+      <Modal show={showModal} onHide={handleCloseModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>{selectedIncome?.id ? "Editar Receita" : "Adicionar Receita"}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form>
+            <Form.Group className="mb-3" controlId="formCategory">
+              <Form.Label>Categoria</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Categoria"
+                value={selectedIncome?.category || ""}
+                onChange={(e) =>
+                  setSelectedIncome({ ...selectedIncome!, category: e.target.value })
+                }
+              />
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="formAmount">
+              <Form.Label>Valor</Form.Label>
+              <Form.Control
+                type="number"
+                placeholder="Valor"
+                value={selectedIncome?.amount || ""}
+                onChange={(e) =>
+                  setSelectedIncome({ ...selectedIncome!, amount: parseFloat(e.target.value) })
+                }
+              />
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="formDate">
+              <Form.Label>Data</Form.Label>
+              <Form.Control
+                type="date"
+                value={selectedIncome?.date || ""}
+                onChange={(e) => setSelectedIncome({ ...selectedIncome!, date: e.target.value })}
+              />
+            </Form.Group>
+          </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseModal}>
+            Cancelar
+          </Button>
+          <Button variant="primary" onClick={handleSaveIncome}>
+            Salvar
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    </Container>
+  );
+};
+
+export default NewIncomesTable;

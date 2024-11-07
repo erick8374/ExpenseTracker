@@ -1,26 +1,26 @@
 import axios from 'axios'
 const baseUrl = 'http://localhost:3001/webmob/api'
 
-class ExpenseService {
+class IncomeService {
 
-    async getExpenses() {
-        return await axios.get(`${baseUrl}/matches`).then((response) => response.data)
+    async getIncomes() {
+        return await axios.get(`${baseUrl}/incomes`).then((response) => response.data)
         .catch((error) => {
             console.error('Error fetching data:', error)
         })
     }
-    async getExpensesbyId(id:number) {
-        return await axios.get(`${baseUrl}/matches`).then((response) => response.data)
+    async getIncomesbyId(id:number) {
+        return await axios.get(`${baseUrl}/incomes`).then((response) => response.data)
         .catch((error) => {
             console.error('Error fetching data:', error)
         })
     }
-    // async getExpensesbyUser(id:number) {
+    // async getIncomesbyUser(id:number) {
     //     return await axios.get(`${baseUrl}/matches`).then((response) => response.data)
     //     .catch((error) => {
     //         console.error('Error fetching data:', error)
     //     })
-    // async getExpensesbyCategory(idCategory:number) {
+    // async getIncomesbyCategory(idCategory:number) {
     //     return await axios.get(`${baseUrl}/matches`).then((response) => response.data)
     //     .catch((error) => {
     //         console.error('Error fetching data:', error)
@@ -28,24 +28,24 @@ class ExpenseService {
     // }
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    addExpense(data: any) {
-        return axios.post(`${baseUrl}/expense`, data).then((response) => response.status)
+    addIncome(data: any) {
+        return axios.post(`${baseUrl}/income`, data).then((response) => response.status)
             .catch((error) => {
                 console.error('Error fetching data:', error)
             }
         )
     }
 
-    deleteExpense(id: number) {
-        return axios.delete(`${baseUrl}/expense/${id}`).then((response) => response.status)
+    deleteIncome(id: number) {
+        return axios.delete(`${baseUrl}/income/${id}`).then((response) => response.status)
             .catch((error) => {
-                console.error('Erro ao remover expense', error)
+                console.error('Erro ao remover income', error)
             })
     }
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    updateExpense(id: number, data: any) {
-        return axios.put(`${baseUrl}/expense/${id}`, data)
+    updateIncome(id: number, data: any) {
+        return axios.put(`${baseUrl}/income/${id}`, data)
             .then((response) => {
                 console.log(response.status)
             })
@@ -55,4 +55,4 @@ class ExpenseService {
     }
 }
 
-export default new ExpenseService
+export default new IncomeService
