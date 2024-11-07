@@ -1,8 +1,37 @@
 import React, { useEffect, useState } from 'react'
 import ExpenseService from './services/expenseService'
-import { Button, Container, Modal, Table } from 'react-bootstrap'
+import { Button, Col, Container, Modal, Row, Table } from 'react-bootstrap'
+import ExnpensePerCategory from './components/ExnpensePerCategory'
+import NewExpensesTable from "./components/newExpensesTable"
 
-const MatchList = () => {
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  BarElement,
+  PointElement,
+  LineElement,
+  LinearScale,
+  Title,
+  Tooltip,
+  Legend,
+  ArcElement,
+  RadialLinearScale
+} from "chart.js"
+import ExpensePerPeriod from './components/ExpensesPerPeriod'
+
+ChartJS.register(
+  CategoryScale,
+  BarElement,
+  PointElement,
+  LineElement,
+  LinearScale,
+  Title,
+  Tooltip,
+  Legend,
+  ArcElement,
+  RadialLinearScale
+);
+const Expenses = () => {
   const [matches, setMatches] = useState([])
   const [showModal, setShowModal] = useState(false)
   const [selectedParticipants, setSelectedParticipants] = useState([])
@@ -27,8 +56,20 @@ const MatchList = () => {
 
   return (
     <>
+    <Container>
+      <Row className="align-items-center mb-4">
+        <Col>
+        <NewExpensesTable></NewExpensesTable>
+        </Col>
+        <Col>
+          <ExnpensePerCategory/>
+        <ExpensePerPeriod></ExpensePerPeriod>
+        </Col>
+      </Row>
+    </Container>
+
     </>
   )
 }
 
-export default MatchList
+export default Expenses

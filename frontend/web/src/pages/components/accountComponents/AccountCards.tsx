@@ -1,23 +1,23 @@
 import React from "react";
 import { Card, Button } from "react-bootstrap";
 
-interface User {
+interface Account {
   id: number;
+  initial_income: number;
   name: string;
-  email: string;
 }
 
-interface UserCardProps {
-  user: User;
+interface AccountCardProps {
+  account: Account;
   // onEdit: (user: User) => void;
 }
 
-const UserCardModal: React.FC<UserCardProps> = ({ user }) => { //, onEdit
+const AccountCardModal: React.FC<AccountCardProps> = ({ account }) => { //, onEdit
   return (
     <Card>
       <Card.Body>
-        <Card.Title>{user.name}</Card.Title>
-        <Card.Text>{user.email}</Card.Text>
+        <Card.Title>{account.name}</Card.Title>
+        <Card.Text>{account.initial_income}</Card.Text>
         {/* <Button variant="info" onClick={() => onEdit(user)}>
           Editar
         </Button> */}
@@ -26,4 +26,4 @@ const UserCardModal: React.FC<UserCardProps> = ({ user }) => { //, onEdit
   );
 };
 
-export default UserCardModal;
+export default AccountCardModal;
