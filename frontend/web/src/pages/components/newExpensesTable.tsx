@@ -53,12 +53,17 @@ const NewExpensesTable: React.FC = () => {
 
   const handleSaveExpense = async () => {
     if (!selectedExpense) return;
-
+  
     try {
+      const expenseToSave = {
+        ...selectedExpense,
+        category:  selectedExpense.category.id
+      };
+  
       if (selectedExpense.id) {
-        await ExpenseService.updateExpense(selectedExpense.id, selectedExpense);
+        await ExpenseService.updateExpense(selectedExpense.id, expenseToSave);
       } else {
-        await ExpenseService.addExpense(selectedExpense);
+        await ExpenseService.addExpense(expenseToSave);
       }
       fetchExpenses();
     } catch (error) {
@@ -67,6 +72,7 @@ const NewExpensesTable: React.FC = () => {
       handleCloseModal();
     }
   };
+  
 
   const handleDeleteExpense = async (id: number) => {
     try {
@@ -172,22 +178,24 @@ const NewExpensesTable: React.FC = () => {
               <Form.Select
                 value={selectedExpense?.category.id || ""}
                 onChange={(e) => {
-                  const selectedCategory = categories.find(
-                    (category) => category.id === parseInt(e.target.value)
-                  );
-                  setSelectedExpense({
-                    ...selectedExpense!,
-                    category: selectedCategory || { name: "", id: 0 },
-                  });
+                    const selectedCategoryId = parseInt(e.target.value); // extrair apenas o ID
+                    const selectedCategory = categories.find(
+                        (category) => category.id === selectedCategoryId
+                    );
+                    setSelectedExpense({
+                        ...selectedExpense!,
+                        category: { id: selectedCategoryId, name: selectedCategory ? selectedCategory.name : "" },
+                    });
                 }}
-              >
+            >
                 <option value="">Selecione uma categoria</option>
                 {categories.map((category) => (
-                  <option key={category.id} value={category.id}>
-                    {category.name}
-                  </option>
+                    <option key={category.id} value={category.id}>
+                        {category.name}
+                    </option>
                 ))}
-              </Form.Select>
+            </Form.Select>
+
             </Form.Group>
           </Form>
         </Modal.Body>
