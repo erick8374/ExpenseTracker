@@ -11,7 +11,7 @@ const AccountCardModal: React.FC<AccountCardProps> = ({ account }) => {
     <Card>
       <Card.Body>
         <Card.Title>{account.name}</Card.Title>
-        <Card.Text>{"R$ "+account.initial_income}</Card.Text>
+        <Card.Text>{"R$ "+account.total_income}</Card.Text>
 
       </Card.Body>
     </Card>

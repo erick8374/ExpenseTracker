@@ -10,7 +10,7 @@ function CachorroDoDia() {
   const fetchDogImage = async () => {
     setLoading(true);
     try {
-      const response = await axios.get("https://picsum.photos/400/600", {
+      const response = await axios.get("https://picsum.photos/id/237/400/600", {
         responseType: "blob", 
       });
       const imageBlobUrl = URL.createObjectURL(response.data);

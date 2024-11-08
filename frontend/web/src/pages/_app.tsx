@@ -8,6 +8,7 @@ import Container from 'react-bootstrap/Container';
 import NavbarTop from "./components/NavBar";
 import FooterBar from './components/FooterBar';
 
+
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
   const isLoginPage = router.pathname === "/login";

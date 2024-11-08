@@ -4,6 +4,7 @@ interface AccountInterface {
     description: string;
     initial_income: number;
     user:number;
+    total_income:number;
   }
   
   export default AccountInterface;

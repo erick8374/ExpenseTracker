@@ -6,6 +6,7 @@ import AccountCardModal from "./AccountCards";
 const AccountMenu = () => {
     const [accounts, setAccounts] = useState([]);
     const [incomesByAccount, setIncomesByAccount] = useState({});
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchAccounts = async () => {
@@ -17,10 +18,6 @@ const AccountMenu = () => {
             }
         };
 
-        fetchAccounts();
-    }, []);
-
-    useEffect(() => {
         const fetchIncomes = async () => {
             try {
                 const response = await axios.get("http://localhost:3001/webmob/api/incomes");
@@ -30,25 +27,34 @@ const AccountMenu = () => {
                     acc[accountId] = (acc[accountId] || 0) + parseFloat(income.value);
                     return acc;
                 }, {});
-
                 setIncomesByAccount(groupedIncomes);
             } catch (error) {
                 console.error("Erro ao buscar dados de incomes:", error);
             }
         };
 
-        fetchIncomes();
+        const fetchData = async () => {
+            await fetchAccounts();
+            await fetchIncomes();
+            setLoading(false);
+        };
+
+        fetchData();
     }, []);
+
+    if (loading) {
+        return <div>Carregando...</div>;
+    }
 
     return (
         <Container>
             <Row>
-                {accounts.map(account => (
+                {accounts.map((account) => (
                     <Col key={account.id}>
                         <AccountCardModal
                             account={{
                                 ...account,
-                                total_income: (parseFloat(account.initial_income) || 0) + (incomesByAccount[account.id] || 0),
+                                total_income: parseFloat(account.initial_income || 0) + (incomesByAccount[account.id] || 0),
                             }}
                         />
                     </Col>
