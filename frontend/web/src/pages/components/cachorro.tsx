@@ -1,19 +1,25 @@
 import React, { useState, useEffect } from "react";
 import { Button, Col, Container, Image, Row, Spinner } from "react-bootstrap";
+import axios from "axios";
 
 function Cachorro() {
   const [imageUrl, setImageUrl] = useState("");
   const [loading, setLoading] = useState(true);
   const [update, setUpdate] = useState(false);
 
-  const fetchDogImage = () => {
+  const fetchDogImage = async () => {
     setLoading(true);
-    fetch("https://picsum.photos/id/237/400/600")
-      .then((resp) => resp.json())
-      .then((apiData) => {
-        setImageUrl(apiData.message);
-        setLoading(false);
+    try {
+      const response = await axios.get("https://picsum.photos/400/600", {
+        responseType: "blob", 
       });
+      const imageBlobUrl = URL.createObjectURL(response.data);
+      setImageUrl(imageBlobUrl);
+    } catch (error) {
+      console.error("Erro ao buscar a imagem:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {

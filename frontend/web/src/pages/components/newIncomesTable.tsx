@@ -4,9 +4,10 @@ import IncomeService from "../services/incomeService";
 
 interface Income {
   id: number;
-  category: string;
-  amount: number;
+  description: string;
+  value: number;
   date: string;
+  account: string;
 }
 
 const NewIncomesTable: React.FC = () => {
@@ -32,7 +33,7 @@ const NewIncomesTable: React.FC = () => {
   }, []);
 
   const handleOpenModal = (income?: Income) => {
-    setSelectedIncome(income || { id: 0, category: "", amount: 0, date: "" });
+    setSelectedIncome(income || { id: 0, description: "", value: 0, date: "",  account: "" });
     setShowModal(true);
   };
 
@@ -96,6 +97,7 @@ const NewIncomesTable: React.FC = () => {
             <th>Descrição</th>
             <th>Valor</th>
             <th>Data</th>
+            <th>Conta</th>
             <th>Ações</th>
           </tr>
         </thead>
@@ -106,6 +108,7 @@ const NewIncomesTable: React.FC = () => {
               <td>{income.description}</td>
               <td>{income.value}</td>
               <td>{income.date}</td>
+              <td>{income.account.name}</td>
               <td>
                 <Button variant="warning" size="sm" onClick={() => handleOpenModal(income)}>
                   Editar
@@ -129,7 +132,7 @@ const NewIncomesTable: React.FC = () => {
               <Form.Label>Descrição</Form.Label>
               <Form.Control
                 type="text"
-                placeholder="Categoria"
+                placeholder="Nome da receita"
                 value={selectedIncome?.description || ""}
                 onChange={(e) =>
                   setSelectedIncome({ ...selectedIncome!, description: e.target.value })
@@ -153,6 +156,14 @@ const NewIncomesTable: React.FC = () => {
                 type="date"
                 value={selectedIncome?.date || ""}
                 onChange={(e) => setSelectedIncome({ ...selectedIncome!, date: e.target.value })}
+              />
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="formAccount">
+              <Form.Label>Conta</Form.Label>
+              <Form.Control
+                type="text"
+                value={selectedIncome?.account.name || ""}
+                onChange={(e) => setSelectedIncome({ ...selectedIncome!, account: e.target.value })}
               />
             </Form.Group>
           </Form>

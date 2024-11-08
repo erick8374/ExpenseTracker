@@ -32,9 +32,6 @@ const NavbarTop = () => {
             <Nav.Link as={Link} href="/income" passHref>
               Contas e Rendimentos
             </Nav.Link>
-            <Nav.Link as={Link} href="/cachorro" passHref>
-              Dog do Dia
-            </Nav.Link>
             <Nav.Link as={Link} href="#" passHref onClick={handleLogout}>
               <i className="bi bi-box-arrow-in-right fs-4"></i>
             </Nav.Link>

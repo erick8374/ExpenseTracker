@@ -4,9 +4,10 @@ import ExpenseService from "../services/expenseService";
 
 interface Expense {
   id: number;
-  category: string;
-  amount: number;
+  description: string;
+  value: number;
   date: string;
+  category:string;
 }
 
 const NewExpensesTable: React.FC = () => {
@@ -32,7 +33,7 @@ const NewExpensesTable: React.FC = () => {
   }, []);
 
   const handleOpenModal = (expense?: Expense) => {
-    setSelectedExpense(expense || { id: 0, category: "", amount: 0, date: "" });
+    setSelectedExpense(expense || { id: 0, description: "", value: 0, date: "",category:"" });
     setShowModal(true);
   };
 
@@ -93,9 +94,10 @@ const NewExpensesTable: React.FC = () => {
         <thead>
           <tr>
             <th>ID</th>
-            <th>Categoria</th>
+            <th>Descrição</th>
             <th>Valor</th>
             <th>Data</th>
+            <th>Categoria</th>
             <th>Ações</th>
           </tr>
         </thead>
@@ -106,6 +108,7 @@ const NewExpensesTable: React.FC = () => {
               <td>{expense.description}</td>
               <td>{expense.value}</td>
               <td>{expense.date}</td>
+              <td>{expense.category.name}</td>
               <td>
                 <Button variant="warning" size="sm" onClick={() => handleOpenModal(expense)}>
                   Editar
@@ -125,11 +128,11 @@ const NewExpensesTable: React.FC = () => {
         </Modal.Header>
         <Modal.Body>
           <Form>
-            <Form.Group className="mb-3" controlId="formCategory">
-              <Form.Label>Categoria</Form.Label>
+            <Form.Group className="mb-3" controlId="formDescription">
+              <Form.Label>Descrição</Form.Label>
               <Form.Control
                 type="text"
-                placeholder="Categoria"
+                placeholder="Descrição"
                 value={selectedExpense?.description || ""}
                 onChange={(e) =>
                   setSelectedExpense({ ...selectedExpense!, description: e.target.value })
@@ -153,6 +156,14 @@ const NewExpensesTable: React.FC = () => {
                 type="date"
                 value={selectedExpense?.date || ""}
                 onChange={(e) => setSelectedExpense({ ...selectedExpense!, date: e.target.value })}
+              />
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="formCategory">
+              <Form.Label>Category</Form.Label>
+              <Form.Control
+                type="text"
+                value={selectedExpense?.category.name || ""}
+                onChange={(e) => setSelectedExpense({ ...selectedExpense!, category: e.target.value })}
               />
             </Form.Group>
           </Form>

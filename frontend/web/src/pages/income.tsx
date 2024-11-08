@@ -31,7 +31,7 @@ const Income = () => {
       <Row className="align-items-center mb-4">
                 <AccountMenu></AccountMenu>
             </Row>
-      <Row className="align-items-center mb-4">
+      <Row>
             <Col>                
         <       NewIncomesTable></NewIncomesTable>
             </Col>                

@@ -9,18 +9,15 @@ interface Account {
 
 interface AccountCardProps {
   account: Account;
-  // onEdit: (user: User) => void;
 }
 
-const AccountCardModal: React.FC<AccountCardProps> = ({ account }) => { //, onEdit
+const AccountCardModal: React.FC<AccountCardProps> = ({ account }) => {
   return (
     <Card>
       <Card.Body>
         <Card.Title>{account.name}</Card.Title>
-        <Card.Text>{account.total_income}</Card.Text>
-        {/* <Button variant="info" onClick={() => onEdit(user)}>
-          Editar
-        </Button> */}
+        <Card.Text>{"R$ "+account.total_income}</Card.Text>
+
       </Card.Body>
     </Card>
   );

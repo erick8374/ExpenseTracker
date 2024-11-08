@@ -1,11 +1,23 @@
-import {Pie} from "react-chartjs-2";
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import { Pie } from 'react-chartjs-2';
 
-const data = {
-    labels: ['Aliementação', 'Educação', 'Casa', 'Lazer'],
+// Configurações para o gráfico
+export const options = {
+  responsive: true,
+  // plugins: {
+  //   legend: { position: 'top' },
+  //   title: { display: true, text: 'Gastos por Categoria' },
+  // },
+};
+
+const ExpensePerCategory = () => {
+  const [data, setData] = useState({
+    labels: [],
     datasets: [
       {
         label: 'Gastos por Categoria',
-        data: [65, 59, 80, 81],
+        data: [],
         backgroundColor: [
           'rgba(255, 99, 132, 0.2)',
           'rgba(54, 162, 235, 0.2)',
@@ -25,26 +37,45 @@ const data = {
         borderWidth: 1,
       },
     ],
-  };
+  });
 
-  export const options = {
-    responsive: true,
-    plugins: {
-      legend: {
-        position: 'top' as const,
-      },
-      title: {
-        display: true,
-        text: 'Renda por Período',
+  useEffect(() => {
+    const fetchExpensesData = async () => {
+      try {
+        // Busca todas as categorias
+        const categoriesResponse = await axios.get('http://localhost:3001/webmob/api/categories');
+        const categories = categoriesResponse.data;
+
+        const labels = categories.map((cat) => cat.name);
+        const expenseData = [];
+
+        // Itera sobre cada categoria para buscar despesas
+        for (const category of categories) {
+          const expensesResponse = await axios.get(`http://localhost:3001/webmob/api/expenses/category/${category.id}`);
+          const expenses = expensesResponse.data;
+          const totalExpense = expenses.reduce((acc, expense) => acc + parseFloat(expense.value), 0);
+          expenseData.push(totalExpense);
+        }
+
+        // Atualiza os dados do gráfico
+        setData((prevData) => ({
+          ...prevData,
+          labels: labels,
+          datasets: [{ ...prevData.datasets[0], data: expenseData }],
+        }));
+      } catch (error) {
+        console.error('Erro ao buscar dados:', error);
       }
-    },
-  };
-  const ExnpensePerCategory = () => {
-    return (    <div style={{ width: '400px', height: '400px' }}> {/* Defina o tamanho desejado */}
+    };
+
+    fetchExpensesData();
+  }, []);
+
+  return (
+    <div style={{ width: '400px', height: '400px' }}>
       <Pie options={options} data={data} />
-    </div>);
+    </div>
+  );
+};
 
-
-  }
-
-  export default ExnpensePerCategory;
+export default ExpensePerCategory;
