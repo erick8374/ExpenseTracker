@@ -1,13 +1,14 @@
 import React from "react";
 import { Card, Button } from "react-bootstrap";
+import AccountMenu from "../accountComponents/AccountMenu";
 
 
 const AccountSummary = () => {
   return (
     <Card>
       <Card.Body>
-        <Card.Title>AAA</Card.Title>
-        <Card.Text>AccountSummary</Card.Text>
+        <Card.Title>Resumo</Card.Title>
+        <Card.Text><AccountMenu/></Card.Text>
 
       </Card.Body>
     </Card>

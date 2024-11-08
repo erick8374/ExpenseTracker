@@ -16,7 +16,7 @@ const IncomePerPeriod = () => {
 
         const expenseByMonth = expenses.reduce((acc, expense) => {
           const month = new Date(expense.date).toLocaleString('default', { month: 'long' });
-          const expenseValue = parseFloat(expense.value); // Converter valor para número
+          const expenseValue = parseFloat(expense.value);
 
           acc[month] = (acc[month] || 0) + expenseValue;
           return acc;

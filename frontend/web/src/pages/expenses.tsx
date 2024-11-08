@@ -57,7 +57,7 @@ const Expenses = () => {
   return (
     <>
     <Container>
-      <Row className="align-items-center mb-4">
+      <Row className="align-items-center mb-6">
         <Col>
         <NewExpensesTable></NewExpensesTable>
         </Col>

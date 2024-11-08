@@ -85,8 +85,8 @@ const NewIncomesTable: React.FC = () => {
           <h1>Lista de Receitas</h1>
         </Col>
         <Col xs="auto">
-          <Button variant="primary" onClick={() => handleOpenModal()}>
-            Adicionar Receita
+          <Button variant="success" onClick={() => handleOpenModal()}>
+            Adicionar
           </Button>
         </Col>
       </Row>

@@ -85,8 +85,8 @@ const NewExpensesTable: React.FC = () => {
           <h1>Lista de Despesas</h1>
         </Col>
         <Col xs="auto">
-          <Button variant="primary" onClick={() => handleOpenModal()}>
-            Adicionar Despesa
+        <Button variant="success" onClick={() => handleOpenModal()}>
+            Adicionar
           </Button>
         </Col>
       </Row>

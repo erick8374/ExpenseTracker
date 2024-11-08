@@ -10,13 +10,8 @@ export default function Login() {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    // Simula uma autenticação simples
     if (email === "admin" && password === "123") {
       localStorage.setItem("isLoggedIn", "true"); 
-      // Armazena estado de login, não é a melhor forma de fazer isso. Explicar Sessions, JWT e Refresh
-      
-      // Garante que o estado é salvo antes da navegação
       await router.push("/");
     } else {
       setError("Credenciais inválidas. Tente novamente.");
@@ -40,7 +35,6 @@ export default function Login() {
                 required
               />
             </Form.Group>
-
             <Form.Group className="mb-3" controlId="formPassword">
               <Form.Label>Senha</Form.Label>
               <Form.Control
@@ -51,7 +45,6 @@ export default function Login() {
                 required
               />
             </Form.Group>
-
             <Button variant="primary" type="submit" className="w-100">
               Entrar
             </Button>

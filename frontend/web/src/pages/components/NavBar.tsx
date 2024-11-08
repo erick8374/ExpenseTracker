@@ -23,7 +23,7 @@ const NavbarTop = () => {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ms-auto">
-            <Nav.Link as={Link} href="/dashboard" passHref>
+            <Nav.Link as={Link} href="/" passHref>
               Dashboard
             </Nav.Link>
             <Nav.Link as={Link} href="/expenses" passHref>
@@ -32,11 +32,11 @@ const NavbarTop = () => {
             <Nav.Link as={Link} href="/income" passHref>
               Contas e Rendimentos
             </Nav.Link>
-            <Nav.Link as={Link} href="#" passHref onClick={handleLogout}>
-              <i className="bi bi-box-arrow-in-right fs-4"></i>
-            </Nav.Link>
           </Nav>
         </Navbar.Collapse>
+            <Navbar.Brand as={Link} href="#" passHref onClick={handleLogout}>
+              <i className="bi bi-box-arrow-in-right fs-4"></i>
+            </Navbar.Brand>
       </Container>
     </Navbar>
   );
