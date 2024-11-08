@@ -53,7 +53,7 @@ const IncomePerPeriod = () => {
       },
       title: {
         display: true,
-        text: 'Gastos por Período',
+        text: 'Renda por Período',
       },
     },
   };

@@ -1,36 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import ExpenseService from './services/expenseService'
 import { Button, Col, Container, Modal, Row, Table } from 'react-bootstrap'
-import ExnpensePerCategory from './components/ExnpensePerCategory'
+import ExnpensePerCategory from './components/ExpensePerCategory'
+import ExpensePerPeriod from './components/ExpensesPerPeriod'
 import NewExpensesTable from "./components/newExpensesTable"
 
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  BarElement,
-  PointElement,
-  LineElement,
-  LinearScale,
-  Title,
-  Tooltip,
-  Legend,
-  ArcElement,
-  RadialLinearScale
-} from "chart.js"
-import ExpensePerPeriod from './components/ExpensesPerPeriod'
 
-ChartJS.register(
-  CategoryScale,
-  BarElement,
-  PointElement,
-  LineElement,
-  LinearScale,
-  Title,
-  Tooltip,
-  Legend,
-  ArcElement,
-  RadialLinearScale
-);
 const Expenses = () => {
   const [matches, setMatches] = useState([])
   const [showModal, setShowModal] = useState(false)
@@ -62,10 +37,10 @@ const Expenses = () => {
         <NewExpensesTable></NewExpensesTable>
         </Col>
         <Col>
-        <Row>
+        <Row className="align-items-center mb-6">
         <ExnpensePerCategory/>
         </Row>
-        <Row>
+        <Row className="align-items-center mb-6">
         <ExpensePerPeriod></ExpensePerPeriod>
         </Row>
         </Col>

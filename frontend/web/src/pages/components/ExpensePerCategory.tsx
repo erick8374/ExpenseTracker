@@ -1,7 +1,32 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Bar } from 'react-chartjs-2';
+import { Pie } from 'react-chartjs-2';
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  BarElement,
+  PointElement,
+  LineElement,
+  LinearScale,
+  Title,
+  Tooltip,
+  Legend,
+  ArcElement,
+  RadialLinearScale
+} from "chart.js"
 
+ChartJS.register(
+  CategoryScale,
+  BarElement,
+  PointElement,
+  LineElement,
+  LinearScale,
+  Title,
+  Tooltip,
+  Legend,
+  ArcElement,
+  RadialLinearScale
+);
 // Configurações para o gráfico
 export const options = {
   responsive: true,
@@ -11,7 +36,7 @@ export const options = {
   // },
 };
 
-const ExpensePerCategoryBar = () => {
+const ExpensePerCategory = () => {
   const [data, setData] = useState({
     labels: [],
     datasets: [
@@ -69,9 +94,9 @@ const ExpensePerCategoryBar = () => {
 
   return (
     <div style={{ width: '400px', height: '400px' }}>
-      <Bar options={options} data={data} />
+      <Pie options={options} data={data} />
     </div>
   );
 };
 
-export default ExpensePerCategoryBar;
+export default ExpensePerCategory;

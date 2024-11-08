@@ -1,7 +1,32 @@
 import { useEffect, useState } from 'react';
 import { Line } from 'react-chartjs-2';
 import axios from 'axios';
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  BarElement,
+  PointElement,
+  LineElement,
+  LinearScale,
+  Title,
+  Tooltip,
+  Legend,
+  ArcElement,
+  RadialLinearScale
+} from "chart.js"
 
+ChartJS.register(
+  CategoryScale,
+  BarElement,
+  PointElement,
+  LineElement,
+  LinearScale,
+  Title,
+  Tooltip,
+  Legend,
+  ArcElement,
+  RadialLinearScale
+);
 const IncomePerPeriod = () => {
   const [chartData, setChartData] = useState({
     labels: [],
@@ -30,7 +55,7 @@ const IncomePerPeriod = () => {
           labels: labels,
           datasets: [
             {
-              label: 'Gastos por Período',
+              label: 'Renda por Período',
               data: data,
               backgroundColor: 'rgba(75,192,192,0.2)',
               borderColor: 'rgba(75,192,192,1)',
@@ -53,7 +78,7 @@ const IncomePerPeriod = () => {
       },
       title: {
         display: true,
-        text: 'Gastos por Período',
+        text: 'Renda por Período',
       },
     },
   };

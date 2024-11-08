@@ -1,6 +1,6 @@
 import React from "react";
 import { Card, Button } from "react-bootstrap";
-import ExpensePerCategoryBar from "../ExnpensePerCategoryBar";
+import ExpensePerCategoryBar from "../ExpensePerCategoryBar";
 
 
 const ExpenseSummary = () => {
