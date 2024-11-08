@@ -10,7 +10,7 @@ import FooterBar from './components/FooterBar';
 
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
-  const isLoginPage = router.pathname === "/login"; // Verifica se está na página de login
+  const isLoginPage = router.pathname === "/login";
 
   useEffect(() => {
     const isLoggedIn = localStorage.getItem("isLoggedIn");
@@ -21,7 +21,7 @@ export default function App({ Component, pageProps }: AppProps) {
 
   return (
     <div className="d-flex flex-column" style={{ minHeight: '100vh' }}>
-      {!isLoginPage && <NavbarTop />} {/* Mostra Navbar apenas se não for login */}
+      {!isLoginPage && <NavbarTop />}
       <main className="flex-grow-1">
         <Container fluid>
           <Component {...pageProps} />
