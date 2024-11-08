@@ -1,16 +1,10 @@
 import React from "react"
 import { Form, Button } from "react-bootstrap"
-
-interface User {
-  id: number
-  name: string
-  email: string
-  password: number
-}
+import UserInterface from "../interfaces/UserInterface"
 
 interface UserFormProps {
-  user: User
-  onChange: (user: User) => void
+  user: UserInterface
+  onChange: (user: UserInterface) => void
   onSubmit: () => void
   onCancel: () => void
 }

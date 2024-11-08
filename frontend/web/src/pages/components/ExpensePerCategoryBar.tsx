@@ -2,13 +2,8 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Bar } from 'react-chartjs-2';
 
-// Configurações para o gráfico
 export const options = {
-  responsive: true,
-  // plugins: {
-  //   legend: { position: 'top' },
-  //   title: { display: true, text: 'Gastos por Categoria' },
-  // },
+  responsive: true
 };
 
 const ExpensePerCategoryBar = () => {
@@ -68,9 +63,7 @@ const ExpensePerCategoryBar = () => {
   }, []);
 
   return (
-    // <div style={{ width: '400px', height: '400px' }}>
       <Bar options={options} data={data} />
-    // </div>
   );
 };
 

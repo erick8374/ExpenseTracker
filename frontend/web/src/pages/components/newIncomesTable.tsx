@@ -1,20 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Container, Row, Col, Table, Button, Spinner, Modal, Form } from "react-bootstrap";
 import IncomeService from "../services/incomeService";
+import IncomeInterface from "../interfaces/IncomeInterface"
 
-interface Income {
-  id: number;
-  description: string;
-  value: number;
-  date: string;
-  account: string;
-}
 
 const NewIncomesTable: React.FC = () => {
-  const [incomes, setIncomes] = useState<Income[]>([]);
+  const [incomes, setIncomes] = useState<IncomeInterface[]>([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
-  const [selectedIncome, setSelectedIncome] = useState<Income | null>(null);
+  const [selectedIncome, setSelectedIncome] = useState<IncomeInterface | null>(null);
 
   const fetchIncomes = async () => {
     setLoading(true);
@@ -32,8 +26,8 @@ const NewIncomesTable: React.FC = () => {
     fetchIncomes();
   }, []);
 
-  const handleOpenModal = (income?: Income) => {
-    setSelectedIncome(income || { id: 0, description: "", value: 0, date: "",  account: "" });
+  const handleOpenModal = (income?: IncomeInterface) => {
+    setSelectedIncome(income || { id: 0, description: "",user:1, value: 0, date: "",  account: {name:"",id:0} });
     setShowModal(true);
   };
 
@@ -86,7 +80,7 @@ const NewIncomesTable: React.FC = () => {
         </Col>
         <Col xs="auto">
           <Button variant="success" onClick={() => handleOpenModal()}>
-            Adicionar
+            Adicionar <i className="bi bi-plus"></i>
           </Button>
         </Col>
       </Row>
@@ -108,13 +102,13 @@ const NewIncomesTable: React.FC = () => {
               <td>{income.description}</td>
               <td>{income.value}</td>
               <td>{income.date}</td>
-              <td>{income.account.name}</td>
+              <td>{income.account.id}</td>
               <td>
                 <Button variant="warning" size="sm" onClick={() => handleOpenModal(income)}>
-                  Editar
+                 <i className="bi bi-pencil-square"></i>
                 </Button>{" "}
                 <Button variant="danger" size="sm" onClick={() => handleDeleteIncome(income.id)}>
-                  Excluir
+                   <i className="bi bi-trash"></i>
                 </Button>
               </td>
             </tr>
@@ -161,9 +155,9 @@ const NewIncomesTable: React.FC = () => {
             <Form.Group className="mb-3" controlId="formAccount">
               <Form.Label>Conta</Form.Label>
               <Form.Control
-                type="text"
-                value={selectedIncome?.account.name || ""}
-                onChange={(e) => setSelectedIncome({ ...selectedIncome!, account: e.target.value })}
+                type="number"
+                value={selectedIncome?.account.id}
+                onChange={(e) => setSelectedIncome({ ...selectedIncome!, account: {id:parseInt(e.target.value),name:selectedIncome.account.name}})}
               />
             </Form.Group>
           </Form>

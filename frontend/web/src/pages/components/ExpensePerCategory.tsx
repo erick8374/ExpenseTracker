@@ -27,13 +27,15 @@ ChartJS.register(
   ArcElement,
   RadialLinearScale
 );
-// Configurações para o gráfico
+
 export const options = {
   responsive: true,
-  // plugins: {
-  //   legend: { position: 'top' },
-  //   title: { display: true, text: 'Gastos por Categoria' },
-  // },
+  plugins: {
+    title: {
+      display: true,
+      text: "Despesas por Cateogria",
+    }
+  },
 };
 
 const ExpensePerCategory = () => {
@@ -93,7 +95,7 @@ const ExpensePerCategory = () => {
   }, []);
 
   return (
-    <div style={{ width: '400px', height: '400px' }}>
+    <div style={{ width: '350px', height: '350px' }}>
       <Pie options={options} data={data} />
     </div>
   );

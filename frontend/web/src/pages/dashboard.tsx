@@ -12,7 +12,7 @@ const Dashboard: React.FC = () => {
     <Container>
     <Row>
       <Col md={8}  >
-      <Tabs defaultActiveKey="contas">
+      <Tabs defaultActiveKey="contas" >
         <Tab eventKey="contas" title="Contas">
         <AccountSummary></AccountSummary>
 

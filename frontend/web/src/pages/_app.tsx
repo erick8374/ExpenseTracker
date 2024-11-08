@@ -27,7 +27,7 @@ export default function App({ Component, pageProps }: AppProps) {
           <Component {...pageProps} />
         </Container>
       </main>
-      {!isLoginPage && <FooterBar />} {/* Mostra Footer apenas se não for login */}
+      {!isLoginPage && <FooterBar />} 
     </div>
   );
 }

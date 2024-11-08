@@ -8,8 +8,10 @@ const AccountSummary = () => {
     <Card>
       <Card.Body>
         <Card.Title>Resumo</Card.Title>
-        <Card.Text><AccountMenu/></Card.Text>
-        <Card.Text><IncomePerAccountPieChart/></Card.Text>
+        <AccountMenu/>
+        <div style={{ width: '400px', height: '400px',alignContent:"center" }}>
+          <IncomePerAccountPieChart/>
+        </div>
       </Card.Body>
     </Card>
   );

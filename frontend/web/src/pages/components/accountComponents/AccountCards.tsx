@@ -1,14 +1,9 @@
 import React from "react";
 import { Card, Button } from "react-bootstrap";
-
-interface Account {
-  id: number;
-  total_income: number;
-  name: string;
-}
+import AccountInterface from "../../interfaces/AccountInterface"
 
 interface AccountCardProps {
-  account: Account;
+  account: AccountInterface;
 }
 
 const AccountCardModal: React.FC<AccountCardProps> = ({ account }) => {
@@ -16,7 +11,7 @@ const AccountCardModal: React.FC<AccountCardProps> = ({ account }) => {
     <Card>
       <Card.Body>
         <Card.Title>{account.name}</Card.Title>
-        <Card.Text>{"R$ "+account.total_income}</Card.Text>
+        <Card.Text>{"R$ "+account.initial_income}</Card.Text>
 
       </Card.Body>
     </Card>

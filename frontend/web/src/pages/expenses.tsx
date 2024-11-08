@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import ExpenseService from './services/expenseService'
 import { Button, Col, Container, Modal, Row, Table } from 'react-bootstrap'
-import ExnpensePerCategory from './components/ExpensePerCategory'
+import ExpensePerCategory from './components/ExpensePerCategory'
 import ExpensePerPeriod from './components/ExpensesPerPeriod'
 import NewExpensesTable from "./components/newExpensesTable"
+import NewCategoriesTable from './components/newCategory'
+import { MdMargin } from 'react-icons/md'
 
 
 const Expenses = () => {
@@ -34,11 +36,18 @@ const Expenses = () => {
     <Container>
       <Row className="align-items-center mb-6">
         <Col>
-        <NewExpensesTable></NewExpensesTable>
+          <NewExpensesTable></NewExpensesTable>
         </Col>
         <Col>
+        <Row className="align-items-center">
+          <Col>
+            <ExpensePerCategory/>
+          </Col>
+        </Row>
         <Row className="align-items-center mb-6">
-        <ExnpensePerCategory/>
+          <Col>
+             <NewCategoriesTable/>
+          </Col>
         </Row>
         <Row className="align-items-center mb-6">
         <ExpensePerPeriod></ExpensePerPeriod>

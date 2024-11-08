@@ -4,7 +4,7 @@ import HealthStatus from "./HealthCheck"
 const FooterBar = () => {
 
     return (
-    <Navbar bg="dark" data-bs-theme="dark" fixed="bottom">
+    <Navbar bg="dark" data-bs-theme="dark">
         <Container>
           <Navbar.Brand>
             <HealthStatus/>

@@ -66,7 +66,10 @@ const IncomePerAccountPieChart = () => {
         labels: accounts.map(account => account.name),
         datasets: [
             {
-                data: accounts.map(account => incomesByAccount[account.id] || 0),
+                data: accounts.map(account => {
+                    const totalIncomes = incomesByAccount[account.id] || 0;
+                    return parseFloat(account.initial_income) + totalIncomes;
+                }),
                 backgroundColor: [
                     '#FF6384',
                     '#36A2EB',
@@ -89,9 +92,7 @@ const IncomePerAccountPieChart = () => {
 
     return (
         <>
-            <div style={{ width: '400px', height: '400px',alignContent:"center" }}>
                 <Pie data={chartData} />
-            </div>
         </>
     );
 };

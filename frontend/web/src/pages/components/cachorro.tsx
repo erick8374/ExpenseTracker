@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Button, Col, Container, Image, Row, Spinner } from "react-bootstrap";
 import axios from "axios";
 
-function Cachorro() {
+function CachorroDoDia() {
   const [imageUrl, setImageUrl] = useState("");
   const [loading, setLoading] = useState(true);
   const [update, setUpdate] = useState(false);
@@ -62,4 +62,4 @@ function Cachorro() {
   );
 }
 
-export default Cachorro;
+export default CachorroDoDia;

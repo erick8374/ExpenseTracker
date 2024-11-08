@@ -23,6 +23,7 @@ import {
 import AccountCardModal from "./components/accountComponents/AccountCards";
 import AccountMenu from "./components/accountComponents/AccountMenu";
 import NewIncomesTable from "./components/newIncomesTable";
+import NewAccountsTable from "./components/newAccountsTable";
 
 const Income = () => {
     return (
@@ -37,6 +38,7 @@ const Income = () => {
             </Col>                
             <Col>                    
                 <IncomePerPeriod/>
+                <NewAccountsTable/>
             </Col>
       </Row>
         </Container>
