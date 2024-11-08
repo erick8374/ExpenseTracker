@@ -103,8 +103,8 @@ const NewIncomesTable: React.FC = () => {
           {incomes.map((income) => (
             <tr key={income.id}>
               <td>{income.id}</td>
-              <td>{income.descricao}</td>
-              <td>{income.valor}</td>
+              <td>{income.description}</td>
+              <td>{income.value}</td>
               <td>{income.date}</td>
               <td>
                 <Button variant="warning" size="sm" onClick={() => handleOpenModal(income)}>

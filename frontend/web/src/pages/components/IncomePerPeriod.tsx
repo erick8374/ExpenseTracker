@@ -1,18 +1,51 @@
-import {Line} from "react-chartjs-2";
+import { useEffect, useState } from 'react';
+import { Line } from 'react-chartjs-2';
+import axios from 'axios';
 
-const data = {
-    labels: ['January', 'February', 'March', 'April'],
-    datasets: [
-      {
-        label: 'Renda do Usuário',
-        data: [65, 59, 80, 81],
-        backgroundColor: 'rgba(75,192,192,0.2)',
-        borderColor: 'rgba(75,192,192,1)',
-      },
-    ],
-  };
+const IncomePerPeriod = () => {
+  const [chartData, setChartData] = useState({
+    labels: [],
+    datasets: [],
+  });
 
-  export const options = {
+  useEffect(() => {
+    const fetchIncomeData = async () => {
+      try {
+        const response = await axios.get('http://localhost:3001/webmob/api/incomes');
+        const incomes = response.data;
+
+        const incomeByMonth = incomes.reduce((acc, income) => {
+          const month = new Date(income.date).toLocaleString('default', { month: 'long' });
+          const incomeValue = parseFloat(income.value); // Converter valor para número
+
+          acc[month] = (acc[month] || 0) + incomeValue;
+          return acc;
+        }, {});
+
+        const labels = Object.keys(incomeByMonth);
+        const data = Object.values(incomeByMonth);
+        console.log(data);
+
+        setChartData({
+          labels: labels,
+          datasets: [
+            {
+              label: 'Renda do Usuário',
+              data: data,
+              backgroundColor: 'rgba(75,192,192,0.2)',
+              borderColor: 'rgba(75,192,192,1)',
+            },
+          ],
+        });
+      } catch (error) {
+        console.error('Erro ao buscar dados de renda:', error);
+      }
+    };
+
+    fetchIncomeData();
+  }, []);
+
+  const options = {
     responsive: true,
     plugins: {
       legend: {
@@ -20,14 +53,12 @@ const data = {
       },
       title: {
         display: true,
-        text: 'Renda por Período',
+        text: 'Gastos por Período',
       },
     },
   };
-  const IncomePerPeriod = () => {
-    return <Line options= {options} data={data} />;
 
+  return <Line options={options} data={chartData} />;
+};
 
-  }
-
-  export default IncomePerPeriod;
+export default IncomePerPeriod;

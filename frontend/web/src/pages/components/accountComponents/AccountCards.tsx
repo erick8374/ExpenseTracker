@@ -3,7 +3,7 @@ import { Card, Button } from "react-bootstrap";
 
 interface Account {
   id: number;
-  initial_income: number;
+  total_income: number;
   name: string;
 }
 
@@ -17,7 +17,7 @@ const AccountCardModal: React.FC<AccountCardProps> = ({ account }) => { //, onEd
     <Card>
       <Card.Body>
         <Card.Title>{account.name}</Card.Title>
-        <Card.Text>{account.initial_income}</Card.Text>
+        <Card.Text>{account.total_income}</Card.Text>
         {/* <Button variant="info" onClick={() => onEdit(user)}>
           Editar
         </Button> */}
