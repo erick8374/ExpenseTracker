@@ -13,11 +13,11 @@ class TransactionRepository implements TransactionRepository {
             relations: ['user', 'category']
         });
     }
+
     async getById(id: number): Promise<TransactionEntity | undefined> {
         const transaction = await this.repository.findOneBy({ id })
         return transaction || undefined
     }
-    
     
     async getBy(ids: number[]): Promise<TransactionEntity[] | undefined> {
         const transactions = await this.repository.findBy({
@@ -33,6 +33,7 @@ class TransactionRepository implements TransactionRepository {
         });
         return transactions;
     }
+
     async getByCategory(idCategory: number): Promise<TransactionEntity[]> {
         const transactions = await this.repository.find({
             where: { category: { id: idCategory } },
@@ -40,6 +41,14 @@ class TransactionRepository implements TransactionRepository {
         });
         return transactions;
     }
+
+    async getByType(type: string): Promise<TransactionEntity[] | undefined> {
+        const categories = await this.repository.findBy({
+          type: In([type]),
+        });
+        return categories || undefined;
+    }
+
     async create(transaction: Omit<TransactionEntity, 'id'>): Promise<TransactionEntity> {
         const newTransaction= this.repository.create(transaction);
         return this.repository.save(newTransaction);
@@ -47,12 +56,12 @@ class TransactionRepository implements TransactionRepository {
 
     async update(id: number, transaction: Partial<Omit<TransactionEntity, 'id'>>): Promise<TransactionEntity | undefined> {
         const transactionToUpdate = await this.getById(id)
-
         if (!transactionToUpdate) {
             return undefined
         }
         this.repository.merge(transactionToUpdate, transaction);
-        return await this.repository.save(transactionToUpdate);    }
+        return await this.repository.save(transactionToUpdate);    
+    }
 
     async delete(id: number): Promise<boolean> {
         const result = await this.repository.delete(id);

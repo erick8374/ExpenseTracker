@@ -25,6 +25,13 @@ class CategoryRepository implements CategoryRepository {
         return categories || undefined;
     }
 
+    async getByType(type: string): Promise<CategoryEntity[] | undefined> {
+        const categories = await this.repository.findBy({
+          type: In([type]),
+        });
+        return categories || undefined;
+    }
+
     async create(category: Omit<CategoryEntity, 'id'>): Promise<CategoryEntity> {
         const newCategory = this.repository.create(category);
         return this.repository.save(newCategory);
@@ -32,12 +39,12 @@ class CategoryRepository implements CategoryRepository {
 
     async update(id: number, category: Partial<Omit<CategoryEntity, 'id'>>): Promise<CategoryEntity | undefined> {
         const categoryToUpdate = await this.getById(id)
-
         if (!categoryToUpdate) {
             return undefined
         }
         this.repository.merge(categoryToUpdate, category);
-        return await this.repository.save(categoryToUpdate);    }
+        return await this.repository.save(categoryToUpdate);    
+    }
 
     async delete(id: number): Promise<boolean> {
         const result = await this.repository.delete(id);

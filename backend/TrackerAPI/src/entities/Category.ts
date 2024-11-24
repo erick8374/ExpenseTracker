@@ -13,10 +13,10 @@ import { Transaction } from "./Transaction";
 @Entity("categories")
 export class Category {
   @PrimaryGeneratedColumn()
-  id?: number;
+  id: number;
 
   @Column({ type: "varchar", length: 255 })
-  name?: string;
+  name: string;
 
   @Column({ type: "enum", enum: ["income", "expense"] })
   type?: "income" | "expense";
@@ -33,16 +33,14 @@ export class Category {
   @OneToMany(() => Transaction, (transaction) => transaction.category)
   transactions?: Transaction[];
 
-
   constructor(
     id:number,
     name:string,
-    type: "income" | "expense",
+    type?: "income" | "expense",
     created_at?: Date,
     updated_at?: Date,
     user?: User,
     transactions?: Transaction[]
-
   ){
     this.id = id,
     this.name = name,
@@ -53,4 +51,5 @@ export class Category {
     this.transactions = transactions
   }
 }
+
 export default Category

@@ -17,20 +17,12 @@ class UserRepository implements UserRepository {
         return user || undefined
     }
     
-    
     async getBy(ids: number[]): Promise<UserEntity[] | undefined> {
         const users = await this.repository.findBy({
             id: In(ids)
         })
         return users || undefined;
     }
-    /* Se a lista for um array de objetos [{id: 1}, {id: 2}]
-    async getBy(ids: { id: number }[]): Promise<UserEntity[] | undefined> {
-        const users = await this.repository.findBy({
-            id: In(ids.map(u => u.id))
-        });
-        return users.length ? users : undefined;
-    }*/
 
     async create(user: Omit<UserEntity, 'id'>): Promise<UserEntity> {
         const newUser = this.repository.create(user);
@@ -45,7 +37,7 @@ class UserRepository implements UserRepository {
         }
         this.repository.merge(userToUpdate, user);
         return await this.repository.save(userToUpdate);
-        }
+    }
 
     async delete(id: number): Promise<boolean> {
         const result = await this.repository.delete(id);

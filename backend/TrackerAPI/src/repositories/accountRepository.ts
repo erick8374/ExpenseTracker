@@ -15,8 +15,7 @@ class AccountRepository implements AccountRepository {
     async getById(id: number): Promise<AccountEntity | undefined> {
         const account = await this.repository.findOneBy({ id })
         return account || undefined
-    }
-    
+    }  
     
     async getBy(ids: number[]): Promise<AccountEntity[] | undefined> {
         const accounts = await this.repository.findBy({
@@ -24,6 +23,7 @@ class AccountRepository implements AccountRepository {
         })
         return accounts || undefined;
     }
+
     async getByUser(idUser: number): Promise<AccountEntity[]> {
         const accounts = await this.repository.find({
             where: { user: { id: idUser } },
@@ -31,6 +31,7 @@ class AccountRepository implements AccountRepository {
         });
         return accounts;
     }
+    
     async create(account: Omit<AccountEntity, 'id'>): Promise<AccountEntity> {
         const newAccount = this.repository.create(account);
         return this.repository.save(newAccount);
@@ -43,7 +44,8 @@ class AccountRepository implements AccountRepository {
             return undefined
         }
         this.repository.merge(accountToUpdate, account);
-        return await this.repository.save(accountToUpdate);    }
+        return await this.repository.save(accountToUpdate);    
+    }
 
     async delete(id: number): Promise<boolean> {
         const result = await this.repository.delete(id);

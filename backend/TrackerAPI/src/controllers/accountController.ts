@@ -17,7 +17,7 @@ export class AccountController {
   getById = async (req: Request, res: Response): Promise<void> => {
       const account = await this.accountRepository.getById(parseInt(req.params.id));
       if (!account) {
-          res.status(404).send('Account not found');
+          res.status(404).send('Conta não encontrada');
       } else {
           res.status(200).json(account);
       }
@@ -26,7 +26,7 @@ export class AccountController {
   getByUser = async (req: Request, res: Response): Promise<void> => {
       const account = await this.accountRepository.getByUser(parseInt(req.params.userId));
       if (!account) {
-          res.status(404).send('Accounts not found');
+          res.status(404).send('Contas não encontradas');
       } else {
           res.status(200).json(account);
       }
@@ -35,13 +35,13 @@ export class AccountController {
 
   create = async (req: Request, res: Response): Promise<void> => {
       const newAccount = await this.accountRepository.create(req.body);
-      res.status(201).json({message: "Account added"});
+      res.status(201).json({message: "Conta adicionada"});
   };
 
   update = async (req: Request, res: Response): Promise<void> => {
       const updatedAccount = await this.accountRepository.update(parseInt(req.params.id), req.body);
       if (!updatedAccount) {
-          res.status(404).send('Account not found');
+          res.status(404).send('Conta não encontrada');
       } else {
           res.status(200).json(updatedAccount);
       }
@@ -50,7 +50,7 @@ export class AccountController {
   delete = async (req: Request, res: Response): Promise<void> => {
       const success = await this.accountRepository.delete(parseInt(req.params.id));
       if (!success) {
-          res.status(404).send('Account not found');
+          res.status(404).send('Conta não encontrada');
       } else {
           res.status(204).send();
       }

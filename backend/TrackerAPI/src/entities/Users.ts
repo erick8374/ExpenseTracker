@@ -39,7 +39,6 @@ export class User {
   @OneToMany(() => Transaction, (transaction) => transaction.user)
   transactions?: Transaction[];
 
-
 constructor(
   id?: number,
   name?: string,
@@ -50,8 +49,7 @@ constructor(
   accounts?: Account[],
   categories?: Category[],
   transactions?: Transaction[]
-)
-{
+){
   this.id = id
   this.name = name
   this.email = email
@@ -61,6 +59,7 @@ constructor(
   this.accounts = accounts
   this.categories = categories
   this.transactions = transactions
+  }
 }
-}
+
 export default User

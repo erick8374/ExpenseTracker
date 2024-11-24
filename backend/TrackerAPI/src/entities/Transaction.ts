@@ -42,7 +42,6 @@ export class Transaction {
   @ManyToOne(() => Category, (category) => category.transactions, { onDelete: "CASCADE" })
   category?: Category;
 
-
   constructor(
     id?:number,
     type?: "income" | "expense",
@@ -54,8 +53,6 @@ export class Transaction {
     user?: User,
     account?: Account,
     category?: Category
-
-
   ){
     this.id = id,
     this.type = type,
@@ -69,6 +66,5 @@ export class Transaction {
     this.category = category
   }
 }
-
 
 export default Transaction

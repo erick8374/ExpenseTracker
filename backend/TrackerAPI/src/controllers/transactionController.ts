@@ -13,14 +13,29 @@ export class TransactionController {
   }
 
   getAll = async (req: Request, res: Response): Promise<void> => {
-      const transactions = await this.transactionRepository.getAll();
-      res.status(200).json(transactions);
+    const { type } = req.query; 
+
+    try {
+      let transactions;
+      if (type && ['income', 'expense'].includes(type as string)) {
+        transactions = await this.transactionRepository.getByType(type as 'income' | 'expense');
+      } else {
+        transactions = await this.transactionRepository.getAll();
+      }
+      if (!transactions || transactions.length === 0) {
+        res.status(404).send('Nenhuma transação encontrada');
+      } else {
+        res.status(200).json(transactions);
+      }
+    } catch (error) {
+      res.status(500).send('Erro ao buscar transações');
+    }
   };
 
   getById = async (req: Request, res: Response): Promise<void> => {
       const transaction = await this.transactionRepository.getById(parseInt(req.params.id));
       if (!transaction) {
-          res.status(404).send('Transaction not found');
+          res.status(404).send('Transação não encontrada');
       } else {
           res.status(200).json(transaction);
       }
@@ -29,15 +44,24 @@ export class TransactionController {
   getByUser = async (req: Request, res: Response): Promise<void> => {
     const transaction = await this.transactionRepository.getByUser(parseInt(req.params.userId));
     if (!transaction) {
-        res.status(404).send('Transactions not found');
+        res.status(404).send('Transações não encontradas');
     } else {
         res.status(200).json(transaction);
     }
-}
+    }
+    getByType= async (req: Request, res: Response): Promise<void> => {
+        const transaction = await this.transactionRepository.getByType(req.params.type);
+        if (!transaction) {
+            res.status(404).send('Transações não encontradas');
+        } else {
+            res.status(200).json(transaction);
+        }
+    };
+
     getByCategory = async (req: Request, res: Response): Promise<void> => {
         const transaction = await this.transactionRepository.getByCategory(parseInt(req.params.categoryId));
         if (!transaction) {
-            res.status(404).send('Transactions not found');
+            res.status(404).send('TTransações não encontradas');
         } else {
             res.status(200).json(transaction);
         }
@@ -53,12 +77,12 @@ export class TransactionController {
 
     const user = await userRepository.getById(userId);
     if(!user) {
-        res.status(404).json({message: "User not found"})
+        res.status(404).json({message: "Usuário inválido"})
     }
 
     const category = await categoryRepository.getById(categoryId);
     if(!category) {
-        res.status(404).json({message: "Category not found "})
+        res.status(404).json({message: "Categoria inválida"})
     }
 
     const transaction = new Transaction()
@@ -75,7 +99,7 @@ export class TransactionController {
   update = async (req: Request, res: Response): Promise<void> => {
       const updatedTransaction = await this.transactionRepository.update(parseInt(req.params.id), req.body);
       if (!updatedTransaction) {
-          res.status(404).send('Transaction not found');
+          res.status(404).send('Transação não encontrada');
       } else {
           res.status(200).json(updatedTransaction);
       }
@@ -84,7 +108,7 @@ export class TransactionController {
   delete = async (req: Request, res: Response): Promise<void> => {
       const success = await this.transactionRepository.delete(parseInt(req.params.id));
       if (!success) {
-          res.status(404).send('Transaction not found');
+          res.status(404).send('Transação não encontrada');
       } else {
           res.status(204).send();
       }

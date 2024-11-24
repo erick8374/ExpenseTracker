@@ -5,11 +5,11 @@ const PORT = parseInt(process.env.API_PORT || '3001');
 
 AppDataSource.initialize()
   .then(() => {
-    console.log("Data Source has been initialized!");
+    console.log("Fonte de dados inicilizada!");
     app.listen(PORT, () => {
-      console.log(`Server is running on port ${PORT}`);
+      console.log(`Server rodando na porta ${PORT}`);
     });
   })
   .catch((error) => {
-    console.error("Error during Data Source initialization:", error);
+    console.error("Erro durante a incialização da fonte de dados:", error);
   });

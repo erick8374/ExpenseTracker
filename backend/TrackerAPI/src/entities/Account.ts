@@ -49,9 +49,7 @@ export class Account {
       this.updated_at = updated_at,
       this.user = user,
       this.transactions = transactions
-    }
-    
+    } 
 }
-
 
 export default Account
