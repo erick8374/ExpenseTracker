@@ -6,9 +6,8 @@ import { AppDataSource } from "./data-source"
 import { User } from "./entities/Users"
 import routerUser from './routes/userRoute'
 import routerCategory from './routes/categoryRoute'
-import routerExpense from './routes/expenseRoute'
+import routerTransaction from './routes/transactionRoute'
 import routerHealth from "./routes/healthRoute"
-import routerIncome from "./routes/incomeRoute"
 import routerAccount from "./routes/accountRoute"
 
 const app: Application = express()
@@ -16,10 +15,9 @@ app.use(express.json())
 app.use(cors())
 
 app.use("/webmob/api", routerCategory)
-app.use("/webmob/api", routerExpense)
+app.use("/webmob/api", routerTransaction)
 app.use("/webmob/api", routerUser)
 app.use("/webmob/api", routerHealth)
-app.use("/webmob/api", routerIncome)
 app.use("/webmob/api", routerAccount)
 
 /**

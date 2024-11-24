@@ -1,49 +1,57 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany } from 'typeorm';
-import { User } from './Users';
-import { Expense } from './Expense';
-import { Income } from './Income';
-@Entity()
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+  UpdateDateColumn,
+  ManyToOne,
+  OneToMany,
+} from "typeorm";
+import { User } from "./Users";
+import { Transaction } from "./Transaction";
+
+@Entity("accounts")
 export class Account {
-    @PrimaryGeneratedColumn()
-    id?: number;
+  @PrimaryGeneratedColumn()
+  id?: number;
 
-    @ManyToOne(() => User, user => user.accounts)
-    user?: User;
+  @Column({ type: "varchar", length: 255 })
+  name?: string;
 
-    @Column({ length: 100 })
-    name?: string;
+  @Column({ type: "float" })
+  balance?: number;
 
-    @Column("decimal", { precision: 10, scale: 2, default: 0 })
-    initial_income?: number;
+  @CreateDateColumn()
+  created_at?: Date;
 
-    @Column({ nullable: true })
-    description?: string;
+  @UpdateDateColumn()
+  updated_at?: Date;
 
-    @OneToMany(() => Expense, expense => expense.account)
-    expenses?: Expense[];
+  @ManyToOne(() => User, (user) => user.accounts, { onDelete: "CASCADE" })
+  user?: User;
 
-    @OneToMany(() => Income, income => income.account)
-    incomes?: Income[];
-
-    constructor(
-        id?: number,
-        user?: User,
-        name?: string,
-        initial_income?: number,
-        description?: string,
-        expenses?: [],
-        incomes?: []
+  @OneToMany(() => Transaction, (transaction) => transaction.account)
+  transactions?: Transaction[];
+  
+  constructor(
+    id?: number,
+    name?: string,
+    balance?: number,
+    created_at?:Date,
+    updated_at?:Date,
+    user?: User,
+    transactions?: Transaction[]
+  ){
+      this.id = id,
+      this.name = name,
+      this.balance = balance,
+      this.created_at = created_at,
+      this.updated_at = updated_at,
+      this.user = user,
+      this.transactions = transactions
+    }
     
-      ){
-        this.id = id,
-        this.user = user,
-        this.name = name,
-        this.initial_income = initial_income,
-        this.description = description,
-        this.expenses = expenses,
-        this.incomes = incomes
-      }
-
 }
+
 
 export default Account

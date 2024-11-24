@@ -1,47 +1,66 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
-import { Expense } from './Expense';
-import { Account } from './Account';
-import { Income } from './Income';
-@Entity()
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+  UpdateDateColumn,
+  OneToMany,
+} from "typeorm";
+import { Account } from "./Account";
+import { Category } from "./Category";
+import { Transaction } from "./Transaction";
+
+@Entity("users")
 export class User {
   @PrimaryGeneratedColumn()
   id?: number;
 
-  @Column()
+  @Column({ type: "varchar", length: 255 })
   name?: string;
 
-  @Column({ unique: true })
+  @Column({ type: "varchar", unique: true })
   email?: string;
 
-  @Column()
-  senha?: string;
+  @Column({ type: "varchar" })
+  password?: string;
 
-  @OneToMany(() => Expense, expense => expense.user)
-  expenses?: Expense[];
+  @CreateDateColumn()
+  created_at?: Date;
 
-  @OneToMany(() => Account, account => account.user)
+  @UpdateDateColumn()
+  updated_at?: Date;
+
+  @OneToMany(() => Account, (account) => account.user)
   accounts?: Account[];
 
-  @OneToMany(() => Income, income => income.user)
-  incomes?: Income[];
+  @OneToMany(() => Category, (category) => category.user)
+  categories?: Category[];
+
+  @OneToMany(() => Transaction, (transaction) => transaction.user)
+  transactions?: Transaction[];
+
 
 constructor(
   id?: number,
   name?: string,
   email?: string,
-  senha?: string,
-  expenses?:[],
-  accounts?: [],
-  incomes?:[]
+  password?: string,
+  created_at?: Date,
+  updated_at?: Date,
+  accounts?: Account[],
+  categories?: Category[],
+  transactions?: Transaction[]
 )
 {
   this.id = id
   this.name = name
   this.email = email
-  this.senha = senha,
-  this.expenses = expenses,
+  this.password = password
+  this.created_at = created_at
+  this.updated_at = updated_at
   this.accounts = accounts
-  this.incomes = incomes
+  this.categories = categories
+  this.transactions = transactions
 }
 }
 export default User
