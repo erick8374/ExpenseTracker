@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
 import { Form, Button, Alert, Container, Row, Col } from "react-bootstrap";
+import LoginService from "../pages/services/loginService"
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -17,6 +18,10 @@ export default function Login() {
       setError("Credenciais inválidas. Tente novamente.");
     }
   };
+
+  (async () => {
+    await LoginService.login('aluno@teste.com', 'teste');
+  })();
 
   return (
     <Container className="d-flex align-items-center justify-content-center" style={{ height: "100vh" }}>

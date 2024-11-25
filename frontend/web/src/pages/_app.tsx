@@ -24,6 +24,7 @@ export default function App({ Component, pageProps }: AppProps) {
     <div className="d-flex flex-column" style={{ minHeight: '100vh' }}>
       {!isLoginPage && <NavbarTop />}
       <main className="flex-grow-1">
+        <title>Expense Tracker</title>
         <Container fluid>
           <Component {...pageProps} />
         </Container>

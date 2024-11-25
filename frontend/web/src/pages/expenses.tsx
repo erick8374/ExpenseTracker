@@ -1,35 +1,23 @@
 import React, { useEffect, useState } from 'react'
-import ExpenseService from './services/expenseService'
+import TransactionService from './services/transactionService'
 import { Button, Col, Container, Modal, Row, Table } from 'react-bootstrap'
-import ExpensePerCategory from './components/ExpensePerCategory'
-import ExpensePerPeriod from './components/ExpensesPerPeriod'
-import NewExpensesTable from "./components/newExpensesTable"
+import ExpensePerCategory from './components/expensesView/charts/ExpensePerCategory'
+import ExpensePerPeriod from './components/expensesView/charts//ExpensesPerPeriod'
+import NewExpensesTable from "./components/expensesView/newExpensesTable"
 import NewCategoriesTable from './components/newCategory'
-import { MdMargin } from 'react-icons/md'
-
 
 const Expenses = () => {
-  const [matches, setMatches] = useState([])
-  const [showModal, setShowModal] = useState(false)
-  const [selectedParticipants, setSelectedParticipants] = useState([])
+  const [expenses, setExpenses] = useState([])
+
 
   useEffect(() => {
-    const fetchMatches = async () => {
-      const data = await ExpenseService.getExpenses()
-      setMatches(data)
+    const fetchExpenses = async () => {
+      const data = await TransactionService.getTransactions()
+      setExpenses(data)
     }
-    fetchMatches()
+    fetchExpenses()
   }, [])
 
-  const handleStartScore = (participants) => {
-    setSelectedParticipants(participants)
-    setShowModal(true)
-  }
-
-  const handleCloseModal = () => {
-    setShowModal(false)
-    setSelectedParticipants([])
-  }
 
   return (
     <>

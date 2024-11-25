@@ -1,5 +1,5 @@
 import { Col, Container, Row } from "react-bootstrap";
-import IncomePerPeriod from "./components/IncomePerPeriod"
+import IncomePerPeriod from "./components/incomeView/charts/IncomePerPeriod"
 import {
     Chart as ChartJS,
     CategoryScale,
@@ -20,10 +20,10 @@ import {
     Tooltip,
     Legend
   );
-import AccountCardModal from "./components/accountComponents/AccountCards";
-import AccountMenu from "./components/accountComponents/AccountMenu";
-import NewIncomesTable from "./components/newIncomesTable";
-import NewAccountsTable from "./components/newAccountsTable";
+import AccountCardModal from "./components/incomeView/accountComponents/AccountCards";
+import AccountMenu from "./components/incomeView/accountComponents/AccountMenu";
+import NewIncomesTable from "./components/incomeView/newIncomesTable";
+import NewAccountsTable from "./components/incomeView/accountComponents/newAccountsTable";
 
 const Income = () => {
     return (

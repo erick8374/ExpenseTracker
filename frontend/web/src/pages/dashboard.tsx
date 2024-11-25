@@ -1,6 +1,5 @@
 import React from 'react';
 import { Col, Container, Row, Tabs,Tab } from 'react-bootstrap';
-import { FaInfoCircle } from 'react-icons/fa';
 import AccountSummary from './components/dashboardComponents/accountsSummary';
 import IncomeSummary from './components/dashboardComponents/incomeSummary';
 import ExpenseSummary from './components/dashboardComponents/expenses.Summary';
@@ -11,7 +10,7 @@ const Dashboard: React.FC = () => {
     <>
     <Container>
     <Row>
-      <Col md={8}  >
+      <Col md={9}  >
       <Tabs defaultActiveKey="contas" >
         <Tab eventKey="contas" title="Contas">
         <AccountSummary></AccountSummary>
@@ -27,7 +26,7 @@ const Dashboard: React.FC = () => {
         </Tab>
         </Tabs>
       </Col>
-      <Col md={4} >
+      <Col md={3} >
         <Cachorro></Cachorro>
       </Col>
 

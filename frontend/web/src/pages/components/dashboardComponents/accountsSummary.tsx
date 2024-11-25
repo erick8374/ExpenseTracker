@@ -1,7 +1,7 @@
 import React from "react";
 import { Card, Button } from "react-bootstrap";
-import AccountMenu from "../accountComponents/AccountMenu";
-import IncomePerAccountPieChart from "../IncomePerAccountPieChart";
+import AccountMenu from "../incomeView/accountComponents/AccountMenu";
+import IncomePerAccountPieChart from "../incomeView/charts/IncomePerAccountPieChart";
 
 const AccountSummary = () => {
   return (

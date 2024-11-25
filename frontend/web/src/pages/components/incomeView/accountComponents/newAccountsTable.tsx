@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Container, Row, Col, Table, Button, Spinner, Modal, Form } from "react-bootstrap";
-import AccountService from "../services/accountService";
-import AccountInterface from "../interfaces/AccountInterface"
+import AccountService from "../../../services/accountService";
+import AccountInterface from "../../../interfaces/AccountInterface"
 
 
 const NewAccountsTable: React.FC = () => {
@@ -27,7 +27,7 @@ const NewAccountsTable: React.FC = () => {
   }, []);
 
   const handleOpenModal = (account?: AccountInterface) => {
-    setSelectedAccount(account || { id: 0, name: "",description:"", initial_income: 0,user:1 });
+    setSelectedAccount(account || { id: 0, name: "", balance: 0,user:1, total_income:0 });
     setShowModal(true);
   };
 
@@ -124,17 +124,6 @@ const NewAccountsTable: React.FC = () => {
                 value={selectedAccount?.name || ""}
                 onChange={(e) =>
                   setSelectedAccount({ ...selectedAccount!, name: e.target.value })
-                }
-              />
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="formDescription">
-              <Form.Label>Descrição</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Descrição"
-                value={selectedAccount?.description || ""}
-                onChange={(e) =>
-                  setSelectedAccount({ ...selectedAccount!, description: e.target.value })
                 }
               />
             </Form.Group>

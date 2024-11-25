@@ -1,6 +1,6 @@
 import React from "react";
 import { Card, Button } from "react-bootstrap";
-import IncomePerPeriod from "../ExpensesPerPeriod";
+import IncomePerPeriod from "../incomeView/charts/IncomePerPeriod";
 
 
 const IncomeSummary = () => {

@@ -1,12 +1,44 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Bar } from 'react-chartjs-2';
+import { Pie } from 'react-chartjs-2';
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  BarElement,
+  PointElement,
+  LineElement,
+  LinearScale,
+  Title,
+  Tooltip,
+  Legend,
+  ArcElement,
+  RadialLinearScale
+} from "chart.js"
+
+ChartJS.register(
+  CategoryScale,
+  BarElement,
+  PointElement,
+  LineElement,
+  LinearScale,
+  Title,
+  Tooltip,
+  Legend,
+  ArcElement,
+  RadialLinearScale
+);
 
 export const options = {
-  responsive: true
+  responsive: true,
+  plugins: {
+    title: {
+      display: true,
+      text: "Despesas por Cateogria",
+    }
+  },
 };
 
-const ExpensePerCategoryBar = () => {
+const ExpensePerCategory = () => {
   const [data, setData] = useState({
     labels: [],
     datasets: [
@@ -43,9 +75,9 @@ const ExpensePerCategoryBar = () => {
         const labels = categories.map((cat) => cat.name);
         const expenseData = [];
         for (const category of categories) {
-          const expensesResponse = await axios.get(`http://localhost:3001/webmob/api/expenses/category/${category.id}`);
+          const expensesResponse = await axios.get(`http://localhost:3001/webmob/api/transactions/category/${category.id}`);
           const expenses = expensesResponse.data;
-          const totalExpense = expenses.reduce((acc, expense) => acc + parseFloat(expense.value), 0);
+          const totalExpense = expenses.reduce((acc, expense) => acc + parseFloat(expense.amount), 0);
           expenseData.push(totalExpense);
         }
 
@@ -63,8 +95,10 @@ const ExpensePerCategoryBar = () => {
   }, []);
 
   return (
-      <Bar options={options} data={data} />
+    <div style={{ width: '350px', height: '350px' }}>
+      <Pie options={options} data={data} />
+    </div>
   );
 };
 
-export default ExpensePerCategoryBar;
+export default ExpensePerCategory;

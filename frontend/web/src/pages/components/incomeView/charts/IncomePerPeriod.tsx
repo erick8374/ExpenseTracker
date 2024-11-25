@@ -11,12 +11,12 @@ const IncomePerPeriod = () => {
   useEffect(() => {
     const fetchIncomeData = async () => {
       try {
-        const response = await axios.get('http://localhost:3001/webmob/api/incomes');
+        const response = await axios.get('http://localhost:3001/webmob/api/transactions');
         const incomes = response.data;
 
         const incomeByMonth = incomes.reduce((acc, income) => {
           const month = new Date(income.date).toLocaleString('default', { month: 'long' });
-          const incomeValue = parseFloat(income.value); 
+          const incomeValue = parseFloat(income.amount); 
           acc[month] = (acc[month] || 0) + incomeValue;
           return acc;
         }, {});

@@ -32,6 +32,9 @@ const NavbarTop = () => {
             <Nav.Link as={Link} href="/income" passHref>
               Contas e Rendimentos
             </Nav.Link>
+            <Nav.Link as={Link} href="/about" passHref>
+              Sobre
+            </Nav.Link>
           </Nav>
         </Navbar.Collapse>
             <Navbar.Brand as={Link} href="#" passHref onClick={handleLogout}>

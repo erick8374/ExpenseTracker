@@ -1,22 +1,22 @@
 import React, { useState, useEffect } from "react";
 import { Container, Row, Col, Table, Button, Spinner, Modal, Form } from "react-bootstrap";
-import ExpenseService from "../services/expenseService";
-import CategoryService from "../services/categoryService";
-import ExpenseInterface from "../interfaces/ExpenseInterface"
-import CategoryInterface from "../interfaces/CategoryInterface";
+import TransactionService from "../../services/transactionService";
+import CategoryService from "../../services/categoryService";
+import TransactionInterface from "../../interfaces/TransactionInterface"
+import CategoryInterface from "../../interfaces/CategoryInterface";
 
 
 const NewExpensesTable: React.FC = () => {
-  const [expenses, setExpenses] = useState<ExpenseInterface[]>([]);
+  const [expenses, setExpenses] = useState<TransactionInterface[]>([]);
   const [categories, setCategories] = useState<CategoryInterface[]>([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
-  const [selectedExpense, setSelectedExpense] = useState<ExpenseInterface | null>(null);
+  const [selectedExpense, setSelectedExpense] = useState<TransactionInterface | null>(null);
 
   const fetchExpenses = async () => {
     setLoading(true);
     try {
-      const data = await ExpenseService.getExpenses();
+      const data = await TransactionService.getTransactions();
       setExpenses(data || []);
     } catch (error) {
       console.error("Erro ao buscar despesas:", error);
@@ -39,9 +39,9 @@ const NewExpensesTable: React.FC = () => {
     fetchCategories();
   }, []);
 
-  const handleOpenModal = (expense?: ExpenseInterface) => {
+  const handleOpenModal = (expense?: TransactionInterface) => {
     setSelectedExpense(
-      expense || { id: 0, description: "", value: 0, date: "", category: { name: "", id: 0 } }
+      expense || { id: 0, description: "", amount: 0, date: "", category: { name: "", id: 0 },user:{ name: "", id: 0 }, account:{ name: "", id: 0 } }
     );
     setShowModal(true);
   };
@@ -61,9 +61,9 @@ const NewExpensesTable: React.FC = () => {
       };
   
       if (selectedExpense.id) {
-        await ExpenseService.updateExpense(selectedExpense.id, expenseToSave);
+        await TransactionService.updateTransaction(selectedExpense.id, expenseToSave);
       } else {
-        await ExpenseService.addExpense(expenseToSave);
+        await TransactionService.addTransaction(expenseToSave);
       }
       fetchExpenses();
     } catch (error) {
@@ -76,7 +76,7 @@ const NewExpensesTable: React.FC = () => {
 
   const handleDeleteExpense = async (id: number) => {
     try {
-      await ExpenseService.deleteExpense(id);
+      await TransactionService.deleteTransaction(id);
       fetchExpenses();
     } catch (error) {
       console.error("Erro ao remover despesa:", error);
@@ -121,7 +121,7 @@ const NewExpensesTable: React.FC = () => {
             <tr key={expense.id}>
               <td>{expense.id}</td>
               <td>{expense.description}</td>
-              <td>{expense.value}</td>
+              <td>{expense.amount}</td>
               <td>{expense.date}</td>
               <td>{expense.category.name}</td>
               <td>
@@ -159,9 +159,9 @@ const NewExpensesTable: React.FC = () => {
               <Form.Control
                 type="number"
                 placeholder="Valor"
-                value={selectedExpense?.value || ""}
+                value={selectedExpense?.amount || ""}
                 onChange={(e) =>
-                  setSelectedExpense({ ...selectedExpense!, value: parseFloat(e.target.value) })
+                  setSelectedExpense({ ...selectedExpense!, amount: parseFloat(e.target.value) })
                 }
               />
             </Form.Group>
