@@ -17,7 +17,7 @@ export default function LoginScreen() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Login Screen</Text>
+      <Text style={styles.title}>Expense Tracker</Text>
 
       <TextInput
         style={styles.input}
