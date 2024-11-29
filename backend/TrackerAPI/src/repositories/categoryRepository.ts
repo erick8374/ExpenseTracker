@@ -8,13 +8,22 @@ class CategoryRepository implements CategoryRepository {
         this.repository = dataSource.getRepository(CategoryEntity)
     }
 
-    async getAll(): Promise<CategoryEntity[]> {
-        return this.repository.find()
+    async getAll(): Promise<CategoryEntity[]| undefined> {
+        try{
+        const categories = await this.repository.find()
+        return categories}
+        catch(error){
+            return undefined
+        }
     }
 
     async getById(id: number): Promise<CategoryEntity | undefined> {
-        const category = await this.repository.findOneBy({ id })
-        return category || undefined
+        try{        
+            const category = await this.repository.findOneBy({ id })
+            return category || undefined
+        }catch(error){
+            return undefined
+        }
     }
     
     
@@ -32,18 +41,26 @@ class CategoryRepository implements CategoryRepository {
         return categories || undefined;
     }
 
-    async create(category: Omit<CategoryEntity, 'id'>): Promise<CategoryEntity> {
-        const newCategory = this.repository.create(category);
-        return this.repository.save(newCategory);
+    async create(category: Omit<CategoryEntity, 'id'>): Promise<CategoryEntity|undefined> {
+        try{
+            const newCategory = this.repository.create(category);
+            return this.repository.save(newCategory);
+        }catch(error){
+            return undefined
+        }
     }
 
     async update(id: number, category: Partial<Omit<CategoryEntity, 'id'>>): Promise<CategoryEntity | undefined> {
-        const categoryToUpdate = await this.getById(id)
-        if (!categoryToUpdate) {
+        try{
+            const categoryToUpdate = await this.getById(id)
+            if (!categoryToUpdate) {
+                return undefined
+            }
+            this.repository.merge(categoryToUpdate, category);
+            return await this.repository.save(categoryToUpdate); 
+        }catch(error){
             return undefined
         }
-        this.repository.merge(categoryToUpdate, category);
-        return await this.repository.save(categoryToUpdate);    
     }
 
     async delete(id: number): Promise<boolean> {
