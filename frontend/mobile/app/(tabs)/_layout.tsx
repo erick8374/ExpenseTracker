@@ -28,14 +28,6 @@ export default function TabLayout() {
               title: "Gastos",
               tabBarIcon: ({ color }) => (
                 <FontAwesome6 name="money-bill-transfer" size={24} color={color} />            ),
-                headerRight: () => (
-                  <MaterialCommunityIcons
-                  name="plus"
-                  size={28}
-                  style={{ marginRight: 15 }}
-                  onPress={() => router.push('/addPlayer')}
-                  />
-                ),
               }}
           />
               <Tabs.Screen

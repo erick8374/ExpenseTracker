@@ -1,41 +1,17 @@
-import JogadorCard from "@/components/JogadorCard";
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, FlatList, Button } from "react-native";
 import { useRouter } from "expo-router";
+import NewExpensesTable from "@/components/expensesTable";
 
 export default function Expenses({ navigation }) {
-  const [players, setExpenses] = useState([]);
   const router = useRouter();
 
   useEffect(() => {
-    const fetchExpenses = async () => {
-      try {
-        const response = await axios.get(
-          "https://localhost:3001/webmob/api/transactions?type=expense"
-        );
-        setExpenses(response.data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    fetchExpenses();
   }, []);
 
   return (
     <View style={styles.container}>
-      <FlatList
-        data={players}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-            <JogadorCard
-                id={item.id}
-                name={item.name}
-                email={item.email}
-            />
-        )}
-      />
+      <NewExpensesTable/>
     </View>
   );
 }
