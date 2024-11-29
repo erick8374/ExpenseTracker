@@ -4,6 +4,8 @@ import TransactionService from "../../services/transactionService";
 import CategoryService from "../../services/categoryService";
 import TransactionInterface from "../../interfaces/TransactionInterface"
 import CategoryInterface from "../../interfaces/CategoryInterface";
+import accountService from "@/pages/services/accountService";
+import AccountInterface from "@/pages/interfaces/AccountInterface";
 
 
 const NewExpensesTable: React.FC = () => {
@@ -12,6 +14,8 @@ const NewExpensesTable: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [selectedExpense, setSelectedExpense] = useState<TransactionInterface | null>(null);
+  const [accounts, setAccounts] = useState<AccountInterface[]>([]);
+
 
   const fetchExpenses = async () => {
     setLoading(true);
@@ -33,10 +37,19 @@ const NewExpensesTable: React.FC = () => {
       console.error("Erro ao buscar categorias:", error);
     }
   };
+  const fetchAccounts = async () => {
+    try {
+      const data = await accountService.getAccounts();
+      setAccounts(data || []);
+    } catch (error) {
+      console.error("Erro ao buscar categorias:", error);
+    }
+  };
 
   useEffect(() => {
     fetchExpenses();
     fetchCategories();
+    fetchAccounts();
   }, []);
 
   const handleOpenModal = (expense?: TransactionInterface) => {
@@ -58,6 +71,7 @@ const NewExpensesTable: React.FC = () => {
       const expenseToSave = {
         ...selectedExpense,
         category: selectedExpense.category.id, 
+        account: selectedExpense.account.id, 
         type: "expense"
       };
   
@@ -197,6 +211,29 @@ const NewExpensesTable: React.FC = () => {
                 ))}
             </Form.Select>
 
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="formAccount">
+              <Form.Label>Conta</Form.Label>
+              <Form.Select
+                value={selectedExpense?.account.id || ""}
+                onChange={(e) => {
+                    const selectedAccountId = parseInt(e.target.value); // extrair apenas o ID
+                    const selectedAccount = accounts.find(
+                        (account) => account.id === selectedAccountId
+                    );
+                    setSelectedExpense({
+                        ...selectedExpense!,
+                        account: { id: selectedAccountId, name: selectedAccount ? selectedAccount.name : "" },
+                    });
+                }}
+            >
+                <option value="">Selecione uma conta</option>
+                {accounts.map((account) => (
+                    <option key={account.id} value={account.id}>
+                        {account.name}
+                    </option>
+                ))}
+              </Form.Select>
             </Form.Group>
           </Form>
         </Modal.Body>
