@@ -16,7 +16,7 @@ const NewExpensesTable: React.FC = () => {
   const fetchExpenses = async () => {
     setLoading(true);
     try {
-      const data = await TransactionService.getTransactions();
+      const data = await TransactionService.getTransactionsbyType("expense");
       setExpenses(data || []);
     } catch (error) {
       console.error("Erro ao buscar despesas:", error);
@@ -27,7 +27,7 @@ const NewExpensesTable: React.FC = () => {
 
   const fetchCategories = async () => {
     try {
-      const data = await CategoryService.getCategories();
+      const data = await CategoryService.getCategoriesbyType("expense");
       setCategories(data || []);
     } catch (error) {
       console.error("Erro ao buscar categorias:", error);
@@ -41,7 +41,7 @@ const NewExpensesTable: React.FC = () => {
 
   const handleOpenModal = (expense?: TransactionInterface) => {
     setSelectedExpense(
-      expense || { id: 0, description: "", amount: 0, date: "", category: { name: "", id: 0 },user:{ name: "", id: 0 }, account:{ name: "", id: 0 } }
+      expense || { id: 0, description: "", amount: 0, date: "", category: { name: "", id: 0 },user:1, account:{ name: "", id: 0 }, type:"expense" }
     );
     setShowModal(true);
   };
@@ -57,7 +57,8 @@ const NewExpensesTable: React.FC = () => {
     try {
       const expenseToSave = {
         ...selectedExpense,
-        category:  selectedExpense.category.id
+        category: selectedExpense.category.id, 
+        type: "expense"
       };
   
       if (selectedExpense.id) {

@@ -12,7 +12,7 @@ const Expenses = () => {
 
   useEffect(() => {
     const fetchExpenses = async () => {
-      const data = await TransactionService.getTransactions()
+      const data = await TransactionService.getTransactionsbyType("expense")
       setExpenses(data)
     }
     fetchExpenses()

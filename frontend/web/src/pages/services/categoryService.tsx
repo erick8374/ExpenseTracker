@@ -15,6 +15,12 @@ class CategoryService {
             console.error('Error fetching data:', error)
         })
     }
+    async getCategoriesbyType(type:string) {
+        return await axios.get(`${baseUrl}/categories?type=${type}`).then((response) => response.data)
+        .catch((error) => {
+            console.error('Error fetching data:', error)
+        })
+    }
     // async getCategorysbyUser(id:number) {
     //     return await axios.get(`${baseUrl}/matches`).then((response) => response.data)
     //     .catch((error) => {

@@ -14,7 +14,8 @@ import {
   ArcElement,
   RadialLinearScale
 } from "chart.js"
-
+import categoryService from '@/pages/services/categoryService';
+import transactionService from '@/pages/services/transactionService';
 ChartJS.register(
   CategoryScale,
   BarElement,
@@ -27,6 +28,7 @@ ChartJS.register(
   ArcElement,
   RadialLinearScale
 );
+
 
 export const options = {
   responsive: true,
@@ -69,14 +71,14 @@ const ExpensePerCategory = () => {
   useEffect(() => {
     const fetchExpensesData = async () => {
       try {
-        const categoriesResponse = await axios.get('http://localhost:3001/webmob/api/categories');
-        const categories = categoriesResponse.data;
-
+        const categoriesResponse = await categoryService.getCategoriesbyType("expense");
+        const categories = categoriesResponse;
+        
         const labels = categories.map((cat) => cat.name);
         const expenseData = [];
         for (const category of categories) {
-          const expensesResponse = await axios.get(`http://localhost:3001/webmob/api/transactions/category/${category.id}`);
-          const expenses = expensesResponse.data;
+          const expensesResponse = await transactionService.getTransactionsbyCategory(category.id);
+          const expenses = expensesResponse;
           const totalExpense = expenses.reduce((acc, expense) => acc + parseFloat(expense.amount), 0);
           expenseData.push(totalExpense);
         }

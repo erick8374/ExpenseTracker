@@ -15,7 +15,18 @@ class TransactionService {
             console.error('Error fetching data:', error)
         })
     }
-
+    async getTransactionsbyCategory(id:number) {
+        return await axios.get(`${baseUrl}/transactions/category/${id}`).then((response) => response.data)
+        .catch((error) => {
+            console.error('Error fetching data:', error)
+        })
+    }
+    async getTransactionsbyType(type:string) {
+        return await axios.get(`${baseUrl}/transactions?type=${type}`).then((response) => response.data)
+        .catch((error) => {
+            console.error('Error fetching data:', error)
+        })
+    }
     addTransaction(data: any) {
         return axios.post(`${baseUrl}/transaction`, data).then((response) => response.status)
             .catch((error) => {

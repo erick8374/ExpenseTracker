@@ -11,17 +11,15 @@ export default function Login() {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (email === "admin" && password === "123") {
+    const auth = await LoginService.login(email, password);
+
+    if (auth) {
       localStorage.setItem("isLoggedIn", "true"); 
       await router.push("/");
     } else {
       setError("Credenciais inválidas. Tente novamente.");
     }
   };
-
-  (async () => {
-    await LoginService.login('aluno@teste.com', 'teste');
-  })();
 
   return (
     <Container className="d-flex align-items-center justify-content-center" style={{ height: "100vh" }}>

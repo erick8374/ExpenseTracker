@@ -14,7 +14,7 @@ import {
   ArcElement,
   RadialLinearScale
 } from "chart.js"
-
+import transactionService from '@/pages/services/transactionService';
 ChartJS.register(
   CategoryScale,
   BarElement,
@@ -36,8 +36,8 @@ const IncomePerPeriod = () => {
   useEffect(() => {
     const fetchIncomeData = async () => {
       try {
-        const response = await axios.get('http://localhost:3001/webmob/api/transactions');
-        const expenses = response.data;
+        const response = await transactionService.getTransactionsbyType("expense");
+        const expenses = response;
 
         const expenseByMonth = expenses.reduce((acc, expense) => {
           const month = new Date(expense.date).toLocaleString('default', { month: 'long' });
@@ -49,7 +49,6 @@ const IncomePerPeriod = () => {
 
         const labels = Object.keys(expenseByMonth);
         const data = Object.values(expenseByMonth);
-        console.log(data);
 
         setChartData({
           labels: labels,

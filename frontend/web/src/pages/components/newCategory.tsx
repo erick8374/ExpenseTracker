@@ -27,7 +27,7 @@ const NewCategoriesTable: React.FC = () => {
   }, []);
 
   const handleOpenModal = (category?: CategoryInterface) => {
-    setSelectedCategory(category || { id: 0, name: "", expenses: [] });
+    setSelectedCategory(category || { id: 0, name: "", expenses: [],type:"expense" });
     setShowModal(true);
   };
 
@@ -40,10 +40,15 @@ const NewCategoriesTable: React.FC = () => {
     if (!selectedCategory) return;
 
     try {
-      if (selectedCategory.id) {
-        await CategoryService.updateCategory(selectedCategory.id, selectedCategory);
+
+      const categoryToSave = {
+        ...selectedCategory,
+        type: "expense"
+      };
+      if (categoryToSave.id) {
+        await CategoryService.updateCategory(categoryToSave.id, categoryToSave);
       } else {
-        await CategoryService.addCategory(selectedCategory);
+        await CategoryService.addCategory(categoryToSave);
       }
       fetchCategories();
     } catch (error) {

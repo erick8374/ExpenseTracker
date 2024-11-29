@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import AccountCardModal from "./AccountCards";
-import AccountService from "../../../services/accountService"; // Importa o serviço
-import AccountInterface from "../../../interfaces/AccountInterface"; // Importa a interface
+import AccountService from "../../../services/accountService";
+import AccountInterface from "../../../interfaces/AccountInterface";
+import transactionService from "@/pages/services/transactionService";
 
 const AccountMenu = () => {
   const [accounts, setAccounts] = useState<AccountInterface[]>([]);
@@ -12,7 +13,7 @@ const AccountMenu = () => {
   useEffect(() => {
     const fetchAccounts = async () => {
       try {
-        const accountData = await AccountService.getAccounts(); // Usa o serviço para buscar contas
+        const accountData = await AccountService.getAccounts(); 
         setAccounts(accountData);
       } catch (error) {
         console.error("Erro ao buscar contas:", error);
@@ -21,12 +22,10 @@ const AccountMenu = () => {
 
     const fetchIncomes = async () => {
       try {
-        const transactions = await AccountService.getAccounts(); // Substitua por um serviço adequado para buscar transações
+        const transactions = await transactionService.getTransactionsbyType("income"); 
         const groupedIncomes = transactions.reduce((acc: Record<number, number>, transaction: any) => {
-          if (transaction.type === "income") {
-            const accountId = transaction.account.id;
-            acc[accountId] = (acc[accountId] || 0) + parseFloat(transaction.amount);
-          }
+          const accountId = transaction.account.id;
+          acc[accountId] = (acc[accountId] || 0) + parseFloat(transaction.amount || "0");
           return acc;
         }, {});
         setIncomesByAccount(groupedIncomes);
@@ -56,7 +55,8 @@ const AccountMenu = () => {
             <AccountCardModal
               account={{
                 ...account,
-                total_income: account.balance + (incomesByAccount[account.id!] || 0),
+                // Garantir que o valor de total_income seja calculado corretamente
+                total_income: account.balance + (incomesByAccount[account.id] || 0),
               }}
             />
           </Col>
